@@ -1,127 +1,114 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+using System.IO;
+using System.ServiceModel.Syndication; // Glöm inte att lägga till referens till System.ServiceModel
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace DataAccess
 {
     internal class Serializer
     {
-        // Deserialisera podcast från en URL (t.ex. en RSS-feed)
-        public Podcast DeSerializeURL(Podcast pod, string url)
+        // Laddar podcast från en angiven URL (t.ex. RSS-feed)
+        public Podcast LoadPodcastFromUrl(Podcast podcast, string feedUrl)
         {
-            // Skapar en XmlReader för att läsa XML från URL:en
-            XmlReader serializer = XmlReader.Create(url);
-            // Laddar RSS-feed data
-            SyndicationFeed feed = SyndicationFeed.Load(serializer);
-
-            // Går igenom varje objekt (avsnitt) i feeden
-            foreach (SyndicationItem item in feed.Items)
+            // Skapar en XmlReader för att hämta XML-data från URL:en
+            using (XmlReader reader = XmlReader.Create(feedUrl))
             {
-                Avsnitt avsnitt = new Avsnitt();
-                // Sätter avsnittets titel
-                avsnitt.Titel = item.Title.Text;
+                // Laddar RSS-feed data
+                SyndicationFeed feed = SyndicationFeed.Load(reader);
 
-                // Om ingen beskrivning finns, sätt standardtext
-                if (item.Summary == null)
+                // Loopar igenom varje avsnitt i flödet
+                foreach (SyndicationItem item in feed.Items)
                 {
-                    avsnitt.Beskrivning = "Saknar beskrivning";
-                }
-                else
-                {
-                    // Sätter beskrivningen om den finns
-                    avsnitt.Beskrivning = item.Summary.Text;
-                }
+                    Avsnitt episode = new Avsnitt
+                    {
+                        // Sätter avsnittets titel
+                        Titel = item.Title.Text,
+                        // Sätter avsnittets beskrivning
+                        Beskrivning = item.Summary?.Text ?? "Saknar beskrivning"
+                    };
 
-                // Lägg till avsnittet i podcastens avsnittlista
-                pod.AvsnittLista.Add(avsnitt);
-                pod.AntalAvsnitt++;
+                    // Lägger till avsnittet i podcastens avsnittlista
+                    podcast.AvsnittLista.Add(episode);
+                    podcast.AntalAvsnitt++;
+                }
             }
 
-            // Returnerar podcast-objektet med alla avsnitt inlagda
-            return pod;
+            // Returnerar podcast-objektet med alla avsnitt
+            return podcast;
         }
 
-        // Serialisera en lista av podcasts till en XML-fil
-        public void Serialize(List<Podcast> podcastList)
+        // Sparar en lista av podcasts i en XML-fil
+        public void SavePodcastsToFile(List<Podcast> podcasts)
         {
-            // Anropar en metod för att spara podcast-listan i en fil
-            SerializeToFile("podcasts.xml", podcastList);
+            SaveToXmlFile("podcasts.xml", podcasts);
         }
 
-        // Serialisera en lista av kategorier till en XML-fil
-        public void SerializeKategori(List<Kategori> kategoriList)
+        // Sparar en lista av kategorier i en XML-fil
+        public void SaveCategoriesToFile(List<Kategori> categories)
         {
-            // Anropar en metod för att spara kategori-listan i en fil
-            SerializeToFile("kategori.xml", kategoriList);
+            SaveToXmlFile("kategori.xml", categories);
         }
 
-        // Allmän metod för att spara en lista till en XML-fil
-        private void SerializeToFile<T>(string fileName, List<T> list)
+        // Allmän metod för att spara en lista som XML
+        private void SaveToXmlFile<T>(string fileName, List<T> items)
         {
             try
             {
-                // Skapar en XmlSerializer för att hantera den angivna listtypen
-                XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
+                // Skapar en XmlSerializer för den angivna listan
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
 
-                // Skapar eller öppnar filen för skrivning
-                using (FileStream fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+                // Skapar en ny fil eller öppnar en befintlig fil för skrivning
+                using (FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
                 {
-                    // Serialiserar listan och sparar den i XML-format i filen
-                    serializer.Serialize(fileStream, list);
+                    // Serialiserar listan och sparar den i XML-format
+                    xmlSerializer.Serialize(stream, items);
                 }
             }
-            catch (Exception ex) // Fångar specifika fel
+            catch (Exception ex)
             {
                 Console.WriteLine($"Ett fel inträffade: {ex.Message}"); // Loggar felmeddelandet
                 throw; // Kasta vidare undantaget
             }
         }
 
-        // Hämta kategorier från en XML-fil och returnera dem som en lista
-        public List<Kategori> GetKategoriList()
+        // Hämtar kategorier från en XML-fil och returnerar dem som en lista
+        public List<Kategori> LoadCategoriesFromFile()
         {
-            // Anropar en metod för att läsa in kategori-listan från en fil
-            return DeserializeFromFile<Kategori>("kategori.xml");
+            return LoadFromXmlFile<Kategori>("kategori.xml");
         }
 
-        // Hämta podcasts från en XML-fil och returnera dem som en lista
-        public List<Podcast> DeSerializePodcast()
+        // Hämtar podcasts från en XML-fil och returnerar dem som en lista
+        public List<Podcast> LoadPodcastsFromFile()
         {
-            // Anropar en metod för att läsa in podcast-listan från en fil
-            return DeserializeFromFile<Podcast>("podcasts.xml");
+            return LoadFromXmlFile<Podcast>("podcasts.xml");
         }
 
         // Generell metod för att läsa en lista från en XML-fil
-        private List<T> DeserializeFromFile<T>(string fileName)
+        private List<T> LoadFromXmlFile<T>(string fileName)
         {
-            // Kontrollera om filen finns
             if (!File.Exists(fileName))
             {
-                Console.WriteLine($"Filen {fileName} finns inte"); // Meddelande om att filen saknas
-                return new List<T>(); // Returnera en tom lista om filen inte finns
+                Console.WriteLine($"Filen {fileName} finns inte."); // Meddelande om att filen saknas
+                return new List<T>(); // Returnerar en tom lista
             }
 
             try
             {
-                // Skapar en serializer för den typ av lista som anges
-                XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
 
-                // Öppnar filen för att läsa data
-                using (FileStream streamIn = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
-                    // Läser in och returnerar listan från filen
-                    return (List<T>)serializer.Deserialize(streamIn);
+                    // Deserialiserar listan från filen
+                    return (List<T>)xmlSerializer.Deserialize(stream);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw; // Om något går fel, kasta ett undantag
+                Console.WriteLine($"Ett fel inträffade: {ex.Message}"); // Loggar felmeddelandet
+                throw; // Kasta vidare undantaget
             }
         }
     }
-
 }
