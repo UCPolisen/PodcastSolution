@@ -11,7 +11,7 @@ namespace Modell
         public string Url { get; set; }
 
         public string Namn { get; set; }
-
+        
         public Kategori Kategori { get; set; }
 
         public int AntalAvsnitt { get; set; }
