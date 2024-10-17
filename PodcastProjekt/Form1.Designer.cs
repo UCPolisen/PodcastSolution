@@ -68,7 +68,6 @@
             label1.Size = new Size(109, 32);
             label1.TabIndex = 0;
             label1.Text = "RSS/URL:";
-            label1.Click += label1_Click;
             // 
             // textBox1
             // 
@@ -129,7 +128,6 @@
             label5.Size = new Size(100, 32);
             label5.TabIndex = 8;
             label5.Text = "Avsnitt";
-            label5.Click += label5_Click;
             // 
             // label6
             // 
@@ -303,7 +301,6 @@
             label8.Size = new Size(299, 45);
             label8.TabIndex = 24;
             label8.Text = "Grupp 25 Podcast";
-            label8.Click += label8_Click;
             // 
             // Form1
             // 
