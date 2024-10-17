@@ -12,7 +12,7 @@ namespace Modell
 
         public string Namn { get; set; }
 
-        public Kategori kategori { get; set; }
+        public Kategori Kategori { get; set; }
 
         public int AntalAvsnitt { get; set; }
 
