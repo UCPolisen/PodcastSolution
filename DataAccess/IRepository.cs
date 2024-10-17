@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    internal class IRepository
+    public interface IRepository<T> where T : class
     {
+        List<T> GetAll();
+        void Insert(T entity);
+        void Update(int index, T entity);
+        void Delete(int index);
+        void SaveChanges();
+
+        int GetIndex(string namn);
+
     }
 }
+

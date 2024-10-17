@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using DataAccess.Repositorys; // Importerar repository-klasserna från dataåtkomstskiktet
-using Modell; // Importerar modeller (som t.ex. Podcast och Kategori)
-using DataAccess.Repository; // Importerar repository-gränssnittet
 
 namespace Business.Controller
 {
