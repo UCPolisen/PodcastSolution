@@ -49,10 +49,11 @@
             listBox4 = new ListBox();
             button8 = new Button();
             dataGridView1 = new DataGridView();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
             dataGridView2 = new DataGridView();
+            Column2 = new DataGridViewTextBoxColumn();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column3 = new DataGridViewTextBoxColumn();
+            Column4 = new DataGridViewTextBoxColumn();
             Column5 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -236,33 +237,12 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column2, Column1, Column3, Column4 });
             dataGridView1.Location = new Point(32, 565);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 82;
             dataGridView1.Size = new Size(835, 361);
             dataGridView1.TabIndex = 22;
-            // 
-            // Column1
-            // 
-            Column1.HeaderText = "Namn";
-            Column1.MinimumWidth = 10;
-            Column1.Name = "Column1";
-            Column1.Width = 250;
-            // 
-            // Column2
-            // 
-            Column2.HeaderText = "URL";
-            Column2.MinimumWidth = 10;
-            Column2.Name = "Column2";
-            Column2.Width = 250;
-            // 
-            // Column3
-            // 
-            Column3.HeaderText = "Kategori";
-            Column3.MinimumWidth = 10;
-            Column3.Name = "Column3";
-            Column3.Width = 250;
             // 
             // dataGridView2
             // 
@@ -274,12 +254,40 @@
             dataGridView2.Size = new Size(686, 361);
             dataGridView2.TabIndex = 23;
             // 
+            // Column2
+            // 
+            Column2.HeaderText = "URL";
+            Column2.MinimumWidth = 10;
+            Column2.Name = "Column2";
+            Column2.Width = 150;
+            // 
+            // Column1
+            // 
+            Column1.HeaderText = "Namn";
+            Column1.MinimumWidth = 10;
+            Column1.Name = "Column1";
+            Column1.Width = 200;
+            // 
+            // Column3
+            // 
+            Column3.HeaderText = "Kategori";
+            Column3.MinimumWidth = 10;
+            Column3.Name = "Column3";
+            Column3.Width = 200;
+            // 
+            // Column4
+            // 
+            Column4.HeaderText = "Avsnitt";
+            Column4.MinimumWidth = 10;
+            Column4.Name = "Column4";
+            Column4.Width = 200;
+            // 
             // Column5
             // 
             Column5.HeaderText = "Namn";
             Column5.MinimumWidth = 10;
             Column5.Name = "Column5";
-            Column5.Width = 200;
+            Column5.Width = 600;
             // 
             // Form1
             // 
@@ -340,10 +348,11 @@
         private ListBox listBox4;
         private Button button8;
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column3;
         private DataGridView dataGridView2;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column3;
+        private DataGridViewTextBoxColumn Column4;
         private DataGridViewTextBoxColumn Column5;
     }
 }
