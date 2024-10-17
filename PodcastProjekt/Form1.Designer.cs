@@ -34,10 +34,8 @@
             textBox2 = new TextBox();
             label3 = new Label();
             comboBox1 = new ComboBox();
-            listBox1 = new ListBox();
             label4 = new Label();
             label5 = new Label();
-            listBox2 = new ListBox();
             label6 = new Label();
             listBox3 = new ListBox();
             button1 = new Button();
@@ -50,6 +48,8 @@
             label7 = new Label();
             listBox4 = new ListBox();
             button8 = new Button();
+            dataGridView1 = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -102,14 +102,6 @@
             comboBox1.Size = new Size(242, 40);
             comboBox1.TabIndex = 5;
             // 
-            // listBox1
-            // 
-            listBox1.FormattingEnabled = true;
-            listBox1.Location = new Point(32, 564);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(722, 356);
-            listBox1.TabIndex = 6;
-            // 
             // label4
             // 
             label4.AutoSize = true;
@@ -128,14 +120,6 @@
             label5.TabIndex = 8;
             label5.Text = "Avsnitt:";
             label5.Click += label5_Click;
-            // 
-            // listBox2
-            // 
-            listBox2.FormattingEnabled = true;
-            listBox2.Location = new Point(921, 564);
-            listBox2.Name = "listBox2";
-            listBox2.Size = new Size(633, 356);
-            listBox2.TabIndex = 9;
             // 
             // label6
             // 
@@ -243,11 +227,21 @@
             button8.Text = "Uppdatera";
             button8.UseVisualStyleBackColor = true;
             // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(32, 565);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 82;
+            dataGridView1.Size = new Size(798, 361);
+            dataGridView1.TabIndex = 22;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1654, 1045);
+            Controls.Add(dataGridView1);
             Controls.Add(button8);
             Controls.Add(listBox4);
             Controls.Add(label7);
@@ -260,10 +254,8 @@
             Controls.Add(button1);
             Controls.Add(listBox3);
             Controls.Add(label6);
-            Controls.Add(listBox2);
             Controls.Add(label5);
             Controls.Add(label4);
-            Controls.Add(listBox1);
             Controls.Add(comboBox1);
             Controls.Add(label3);
             Controls.Add(textBox2);
@@ -273,6 +265,7 @@
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -285,10 +278,8 @@
         private TextBox textBox2;
         private Label label3;
         private ComboBox comboBox1;
-        private ListBox listBox1;
         private Label label4;
         private Label label5;
-        private ListBox listBox2;
         private Label label6;
         private ListBox listBox3;
         private Button button1;
@@ -301,5 +292,6 @@
         private Label label7;
         private ListBox listBox4;
         private Button button8;
+        private DataGridView dataGridView1;
     }
 }
