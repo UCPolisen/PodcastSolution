@@ -48,6 +48,8 @@
             button6 = new Button();
             button7 = new Button();
             label7 = new Label();
+            listBox4 = new ListBox();
+            button8 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -224,11 +226,30 @@
             label7.TabIndex = 19;
             label7.Text = "Beskrivning:";
             // 
+            // listBox4
+            // 
+            listBox4.FormattingEnabled = true;
+            listBox4.Location = new Point(1200, 100);
+            listBox4.Name = "listBox4";
+            listBox4.Size = new Size(380, 292);
+            listBox4.TabIndex = 20;
+            // 
+            // button8
+            // 
+            button8.Location = new Point(427, 957);
+            button8.Name = "button8";
+            button8.Size = new Size(150, 46);
+            button8.TabIndex = 21;
+            button8.Text = "Uppdatera";
+            button8.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1654, 1045);
+            Controls.Add(button8);
+            Controls.Add(listBox4);
             Controls.Add(label7);
             Controls.Add(button7);
             Controls.Add(button6);
@@ -278,5 +299,7 @@
         private Button button6;
         private Button button7;
         private Label label7;
+        private ListBox listBox4;
+        private Button button8;
     }
 }
