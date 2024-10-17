@@ -49,7 +49,13 @@
             listBox4 = new ListBox();
             button8 = new Button();
             dataGridView1 = new DataGridView();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column2 = new DataGridViewTextBoxColumn();
+            Column3 = new DataGridViewTextBoxColumn();
+            dataGridView2 = new DataGridView();
+            Column5 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -215,7 +221,7 @@
             listBox4.FormattingEnabled = true;
             listBox4.Location = new Point(1200, 100);
             listBox4.Name = "listBox4";
-            listBox4.Size = new Size(380, 292);
+            listBox4.Size = new Size(407, 292);
             listBox4.TabIndex = 20;
             // 
             // button8
@@ -230,17 +236,57 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
             dataGridView1.Location = new Point(32, 565);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 82;
-            dataGridView1.Size = new Size(798, 361);
+            dataGridView1.Size = new Size(835, 361);
             dataGridView1.TabIndex = 22;
+            // 
+            // Column1
+            // 
+            Column1.HeaderText = "Namn";
+            Column1.MinimumWidth = 10;
+            Column1.Name = "Column1";
+            Column1.Width = 250;
+            // 
+            // Column2
+            // 
+            Column2.HeaderText = "URL";
+            Column2.MinimumWidth = 10;
+            Column2.Name = "Column2";
+            Column2.Width = 250;
+            // 
+            // Column3
+            // 
+            Column3.HeaderText = "Kategori";
+            Column3.MinimumWidth = 10;
+            Column3.Name = "Column3";
+            Column3.Width = 250;
+            // 
+            // dataGridView2
+            // 
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Column5 });
+            dataGridView2.Location = new Point(921, 565);
+            dataGridView2.Name = "dataGridView2";
+            dataGridView2.RowHeadersWidth = 82;
+            dataGridView2.Size = new Size(686, 361);
+            dataGridView2.TabIndex = 23;
+            // 
+            // Column5
+            // 
+            Column5.HeaderText = "Namn";
+            Column5.MinimumWidth = 10;
+            Column5.Name = "Column5";
+            Column5.Width = 200;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1654, 1045);
+            Controls.Add(dataGridView2);
             Controls.Add(dataGridView1);
             Controls.Add(button8);
             Controls.Add(listBox4);
@@ -266,6 +312,7 @@
             Text = "Form1";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -293,5 +340,10 @@
         private ListBox listBox4;
         private Button button8;
         private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn Column3;
+        private DataGridView dataGridView2;
+        private DataGridViewTextBoxColumn Column5;
     }
 }
