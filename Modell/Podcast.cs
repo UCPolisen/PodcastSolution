@@ -13,7 +13,7 @@ namespace Modell
 
         public Podcast(string url, string namn,Kategori kategori) : base(url, namn, kategori) 
         {
-            url = url;
+            Url = url;
             Namn = namn;
             Kategori = kategori;
             AvsnittLista = new List<Avsnitt>();

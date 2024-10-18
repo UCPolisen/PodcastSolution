@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modell;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel.Syndication; // Glöm inte att lägga till referens till System.ServiceModel

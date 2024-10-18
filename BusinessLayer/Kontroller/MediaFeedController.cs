@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Modell;
+using DataAccess;
 
 namespace Business.Controller
 {
@@ -9,7 +11,7 @@ namespace Business.Controller
     public class MediaFeedController
     {
         // Skapar en referens till repositoryt för mediafeeds (här podcasts)
-        IRepositoryMediaFeed<Podcast> reposi;
+        IRepository<Podcast> reposi;
 
         // Konstruktor som initierar repository för podcasts
         public MediaFeedController()
