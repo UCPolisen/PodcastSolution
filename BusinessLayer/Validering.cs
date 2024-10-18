@@ -11,14 +11,14 @@ namespace BusinessLayer
     public class Validering
     {
 
-        KategoriKontroller kategoriKontroller = new KategoriKontroller();
-        MediaFeedKontroller mediaKontroller = new MediaFeedKontroller();
+        KategoriKontroller kategoriKontroller = new();
+        MediaFeedKontroller mediaKontroller = new();
 
         public void ValideraURL(string input)
         {
             if (Uri.IsWellFormedUriString(input, UriKind.Absolute) == false)
             {
-                throw new ValideringEx("Vänligen ange en korrekt RSS-länk.");
+                throw new ValideringEx("Ange giltig RSS-länk");
             }
         }
 
@@ -26,7 +26,7 @@ namespace BusinessLayer
         {
             if (string.IsNullOrEmpty(input))
             {
-                throw new ValideringEx("Välj ett val i rutan");
+                throw new ValideringEx("Välj ett av följande val");
             }
         }
 
@@ -34,7 +34,7 @@ namespace BusinessLayer
         {
             if (input.Length <= 0)
             {
-                throw new ValideringEx("Vänligen fyll i namn-rutan.");
+                throw new ValideringEx("Fyll i rutan");
             }
         }
 
@@ -42,7 +42,7 @@ namespace BusinessLayer
         {
             if (namn == null)
             {
-                throw new ValideringEx("Du har inte valt ett värde i listan");
+                throw new ValideringEx("Du måste välja ett värde");
             }
         }
 
@@ -50,23 +50,23 @@ namespace BusinessLayer
         {
             if (input.Length <= 0)
             {
-                throw new ValideringEx("Vänligen fyll i kategori-rutan.");
+                throw new ValideringEx("Fyll i rutan");
             }
         }
         public void CheckIfExistsKategori(string namn)
         {
-            Kategori kategori = kategoriKontroller.GetAll().FirstOrDefault(p => p.Namn == namn);
+            Kategori kategori = kategoriKontroller.GetAll().FirstOrDefault(p => p.Namn == namn)!;
             if (kategori != null)
             {
-                throw new ValideringEx("Denna kategori finns redan");
+                throw new ValideringEx("Kategorin finns redan");
             }
         }
         public void CheckIfExistsPod(string url)
         {
-            Podcast podcast = mediaKontroller.GetAllMediaFeed().FirstOrDefault(p => p.Url == url);
+            Podcast podcast = mediaKontroller.GetAllMediaFeed().FirstOrDefault(p => p.Url == url)!;
             if (podcast != null)
             {
-                throw new ValideringEx("Det finns redan en podcast med denna url");
+                throw new ValideringEx("Podcasten finns redan");
             }
 
         }

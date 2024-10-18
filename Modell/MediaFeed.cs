@@ -8,9 +8,9 @@ namespace Modell
 {
     public abstract class Feed 
     {
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
-        public string Namn { get; set; }
+        public string? Namn { get; set; }
         
         public Kategori Kategori { get; set; }
 

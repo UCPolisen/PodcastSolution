@@ -40,13 +40,20 @@ namespace DataAccess
         {
             try
             {
-                pod = serializer.DeSerializeURL(pod, pod.Url);
-                podcastLista.Add(pod);
-                SaveChanges();
+                if (pod.Url != null)
+                {
+                    pod = serializer.DeSerializeURL(pod, pod.Url);
+                    podcastLista.Add(pod);
+                    SaveChanges();
+                }
+                else
+                {
+                    throw new ArgumentNullException(nameof(pod.Url), "Podcast URL is null");
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

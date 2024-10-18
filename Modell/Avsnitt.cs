@@ -8,8 +8,8 @@ namespace Modell
 {
     public class Avsnitt
     {
-        public string Titel {  get; set; }
+        public string? Titel { get; set; }
 
-        public string Beskrivning { get; set; }
+        public string? Beskrivning { get; set; }
     }
 }

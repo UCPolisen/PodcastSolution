@@ -8,7 +8,7 @@ namespace Modell
 {
     public class Kategori
     {
-        public string Namn;
+        public string? Namn;
 
         public Kategori(string namn)
         {
