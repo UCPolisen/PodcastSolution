@@ -111,6 +111,7 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Humor", "Dokumentär", "Skitsnack" });
             comboBox1.Location = new Point(79, 120);
             comboBox1.Margin = new Padding(2, 1, 2, 1);
             comboBox1.Name = "comboBox1";
