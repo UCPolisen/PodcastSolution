@@ -49,13 +49,13 @@
             listBox4 = new ListBox();
             button8 = new Button();
             dataGridView1 = new DataGridView();
-            dataGridView2 = new DataGridView();
-            Column5 = new DataGridViewTextBoxColumn();
-            label8 = new Label();
             Column2 = new DataGridViewTextBoxColumn();
             Column1 = new DataGridViewTextBoxColumn();
             Column3 = new DataGridViewTextBoxColumn();
             Column4 = new DataGridViewTextBoxColumn();
+            dataGridView2 = new DataGridView();
+            Column5 = new DataGridViewTextBoxColumn();
+            label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
@@ -270,6 +270,32 @@
             dataGridView1.Size = new Size(450, 169);
             dataGridView1.TabIndex = 22;
             // 
+            // Column2
+            // 
+            Column2.HeaderText = "URL";
+            Column2.MinimumWidth = 10;
+            Column2.Name = "Column2";
+            // 
+            // Column1
+            // 
+            Column1.HeaderText = "Namn";
+            Column1.MinimumWidth = 10;
+            Column1.Name = "Column1";
+            Column1.Width = 200;
+            // 
+            // Column3
+            // 
+            Column3.HeaderText = "Kategori";
+            Column3.MinimumWidth = 10;
+            Column3.Name = "Column3";
+            // 
+            // Column4
+            // 
+            Column4.HeaderText = "Avsnitt";
+            Column4.MinimumWidth = 10;
+            Column4.Name = "Column4";
+            Column4.Width = 80;
+            // 
             // dataGridView2
             // 
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -298,32 +324,6 @@
             label8.Size = new Size(149, 21);
             label8.TabIndex = 24;
             label8.Text = "Grupp 25 Podcast";
-            // 
-            // Column2
-            // 
-            Column2.HeaderText = "URL";
-            Column2.MinimumWidth = 10;
-            Column2.Name = "Column2";
-            // 
-            // Column1
-            // 
-            Column1.HeaderText = "Namn";
-            Column1.MinimumWidth = 10;
-            Column1.Name = "Column1";
-            Column1.Width = 200;
-            // 
-            // Column3
-            // 
-            Column3.HeaderText = "Kategori";
-            Column3.MinimumWidth = 10;
-            Column3.Name = "Column3";
-            // 
-            // Column4
-            // 
-            Column4.HeaderText = "Avsnitt";
-            Column4.MinimumWidth = 10;
-            Column4.Name = "Column4";
-            Column4.Width = 80;
             // 
             // Form1
             // 
