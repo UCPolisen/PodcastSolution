@@ -5,16 +5,16 @@ using System.Linq;
 using Modell;
 using DataAccess;
 
-namespace Business.Controller
+namespace BusinessLayer.Kontroller
 {
     // Kontrollerklass för att hantera MediaFeed, specifikt podcasts
-    public class MediaFeedController
+    public class MediaFeedKontroller
     {
         // Skapar en referens till repositoryt för mediafeeds (här podcasts)
         IRepositoryMedia<Podcast> reposi;
 
         // Konstruktor som initierar repository för podcasts
-        public MediaFeedController()
+        public MediaFeedKontroller()
         {
             reposi = new MediaRepository(); // Initialiserar ett repository-objekt
         }

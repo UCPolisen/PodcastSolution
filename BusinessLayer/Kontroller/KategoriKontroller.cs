@@ -7,13 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Business.Controller
+namespace BusinessLayer.Kontroller
 {
-    public class KategoriController
+    public class KategoriKontroller
     {
         KategoriRepository Krepository;
 
-        public KategoriController()
+        public KategoriKontroller()
         {
             Krepository = new KategoriRepository();
         }

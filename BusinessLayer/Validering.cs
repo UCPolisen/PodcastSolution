@@ -3,80 +3,73 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLayer.Kontroller;
 using Modell;
 
 namespace BusinessLayer
 {
-    public static class Validering
+    public class Validering
     {
-        //    public static Boolean vardeFinns(TextBox textboxAttValidera)
-        //    {
-        //        Boolean resultat = true;
-        //        if (textboxAttValidera.Text == "")
-        //        {
-        //            MessageBox.Show("Textrutan saknar värde!");
-        //            resultat = false;
-        //            textboxAttValidera.Focus();
-        //        }
-        //        return resultat;
-        //    }
 
-        //    public static Boolean vardeFinns(ComboBox comboBoxAttValidera, string typ)
-        //    {
-        //        Boolean resultat = true;
-        //        if (comboBoxAttValidera.SelectedIndex < 0)
-        //        {
-        //            MessageBox.Show($"Vänligen välj {typ}!");
-        //            resultat = false;
-        //        }
-        //        return resultat;
-        //    }
+        KategoriKontroller kategoriKontroller = new KategoriKontroller();
+        MediaFeedKontroller mediaKontroller = new MediaFeedKontroller();
 
-        //    public static Boolean vardeFinns(ListBox listBoxAttValidera, string typ)
-        //    {
-        //        Boolean resultat = true;
-        //        if (listBoxAttValidera.SelectedIndex < 0)
-        //        {
-        //            MessageBox.Show($"Vänligen välj {typ}!");
-        //            resultat = false;
-        //        }
-        //        return resultat;
-        //    }
+        public void ValideraURL(string input)
+        {
+            if (Uri.IsWellFormedUriString(input, UriKind.Absolute) == false)
+            {
+                throw new ValideringEx("Vänligen ange en korrekt RSS-länk.");
+            }
+        }
 
+        public void ComboBoxValidering(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                throw new ValideringEx("Välj ett val i rutan");
+            }
+        }
 
-        //    public static Boolean KontrolleraTeckenAntal(int antalTeckenInskrivna, int minTecken, int maxTecken, string typ)
-        //    {
-        //        Boolean resultat = true;
-        //        if (antalTeckenInskrivna < minTecken || antalTeckenInskrivna > maxTecken)
-        //        {
-        //            MessageBox.Show($"Vänligen använd mellan {minTecken} och {maxTecken} tecken i rutan för {typ}!");
-        //            resultat = false;
-        //        }
+        public void TextBoxValidering(string input)
+        {
+            if (input.Length <= 0)
+            {
+                throw new ValideringEx("Vänligen fyll i namn-rutan.");
+            }
+        }
 
-        //        return resultat;
-        //    }
+        public void CheckIfSelected(string namn)
+        {
+            if (namn == null)
+            {
+                throw new ValideringEx("Du har inte valt ett värde i listan");
+            }
+        }
 
-        //    //Denna privata metod kommer att användas i metoden precis under
-        //    private static bool PodcastUrlExisterar(string url, List<Podcast> befintligaPodcasts)
-        //    {
-        //        return befintligaPodcasts.Any(podcast => podcast.Url == url);
-        //    }
+        public void TextBoxKategoriValidering(string input)
+        {
+            if (input.Length <= 0)
+            {
+                throw new ValideringEx("Vänligen fyll i kategori-rutan.");
+            }
+        }
+        public void CheckIfExistsKategori(string namn)
+        {
+            Kategori kategori = kategoriKontroller.GetAll().FirstOrDefault(p => p.Namn == namn);
+            if (kategori != null)
+            {
+                throw new ValideringEx("Denna kategori finns redan");
+            }
+        }
+        public void CheckIfExistsPod(string url)
+        {
+            Podcast podcast = mediaKontroller.GetAllMediaFeed().FirstOrDefault(p => p.Url == url);
+            if (podcast != null)
+            {
+                throw new ValideringEx("Det finns redan en podcast med denna url");
+            }
 
-        //    public static Boolean ValideraURL(string url, List<Podcast> befintligaPodcasts)
-        //    {
-        //        if (string.IsNullOrWhiteSpace(url))
-        //        {
-        //            MessageBox.Show("Textrutan saknar värde!");
-        //            return false;
-        //        }
+        }
 
-        //        if (PodcastUrlExisterar(url, befintligaPodcasts))
-        //        {
-        //            MessageBox.Show("Podcasten med denna URL finns redan i listan.");
-        //            return false;
-        //        }
-
-        //        return true;
-        //    }
     }
 }
