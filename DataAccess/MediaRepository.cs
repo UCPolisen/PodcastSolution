@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    public class MediaRepository : IRepositoryMediaFeed<Podcast>
+    public class MediaRepository : IRepositoryMedia<Podcast>
     {
         Serializer serializer;
         List<Podcast> podcastLista;
@@ -118,4 +118,4 @@ namespace DataAccess
             }
         }
     }
-
+}

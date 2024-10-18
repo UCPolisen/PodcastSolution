@@ -47,7 +47,7 @@ namespace DataAccess
             return allaKategorier;
         }
 
-        public int GetIndex(String name) 
+        public int GetIndex(String namn) 
         {
             int index = -1;
 

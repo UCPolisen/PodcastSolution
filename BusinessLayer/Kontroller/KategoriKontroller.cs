@@ -21,13 +21,13 @@ namespace Business.Controller
         public void CreateKategori(string KategoriString)
         {
             Kategori kategori = new Kategori(KategoriString);
-            Krepository.Insert(kategori);
+            Krepository.insert(kategori);
         }
 
         public void Delete(string kategoriNamn)
         {
             int index = Krepository.GetIndex(kategoriNamn);
-            Krepository.Delete(index);
+            Krepository.delete(index);
         }
 
         public int GetIndex(string namn)

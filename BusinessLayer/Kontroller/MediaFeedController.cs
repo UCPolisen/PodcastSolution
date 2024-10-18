@@ -11,12 +11,12 @@ namespace Business.Controller
     public class MediaFeedController
     {
         // Skapar en referens till repositoryt för mediafeeds (här podcasts)
-        IRepository<Podcast> reposi;
+        IRepositoryMedia<Podcast> reposi;
 
         // Konstruktor som initierar repository för podcasts
         public MediaFeedController()
         {
-            reposi = new RepositoryMediaFeed(); // Initialiserar ett repository-objekt
+            reposi = new MediaRepository(); // Initialiserar ett repository-objekt
         }
 
         // Skapar en ny podcast och lägger till den i repository
