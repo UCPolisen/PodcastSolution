@@ -60,11 +60,9 @@ namespace DataAccess
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Kategori>));
-                using (FileStream utStream = new FileStream("kategori.xml", FileMode.Create, FileAccess.Write))
-                {
+                using FileStream utStream = new FileStream("kategori.xml", FileMode.Create, FileAccess.Write);
 
-                    serializer.Serialize(utStream, kategoriList);
-                }
+                serializer.Serialize(utStream, kategoriList);
 
             }
             catch
