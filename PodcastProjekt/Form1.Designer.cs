@@ -56,6 +56,7 @@
             dataGridView2 = new DataGridView();
             Column5 = new DataGridViewTextBoxColumn();
             label8 = new Label();
+            textBox3 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
@@ -177,6 +178,7 @@
             button2.TabIndex = 13;
             button2.Text = "Ta bort";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -197,6 +199,7 @@
             button4.TabIndex = 15;
             button4.Text = "Lägg till podcast";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // button5
             // 
@@ -325,11 +328,19 @@
             label8.TabIndex = 24;
             label8.Text = "Grupp 25 Podcast";
             // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(474, 17);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(81, 23);
+            textBox3.TabIndex = 25;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(891, 490);
+            Controls.Add(textBox3);
             Controls.Add(label8);
             Controls.Add(dataGridView2);
             Controls.Add(dataGridView1);
@@ -393,5 +404,6 @@
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column4;
+        private TextBox textBox3;
     }
 }
