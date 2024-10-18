@@ -159,6 +159,221 @@ namespace PodcastProjekt
             }
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                validering.CheckIfSelected(senastePodcast.Namn);
+                string podNamn = senastePodcast.Namn;
+                mediaKontroller.DeleteMediaFeed(podNamn);
+
+                fyllPodcastGridView();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        private void fyllAvsnitt(Podcast pod)
+        {
+            dataGridView2.Rows.Clear();
+
+            foreach (Avsnitt avsnitt in pod.AvsnittLista)
+            {
+                dataGridView2.Rows.Add(avsnitt.Titel);
+            }
+
+        }
+
+        private List<Podcast> getAllPodcast()
+        {
+
+            List<Podcast> listaPodcasts = new List<Podcast>();
+            listaPodcasts = mediaKontroller.GetAllMediaFeed();
+            return listaPodcasts;
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                validering.CheckIfSelected(senastePodcast.Namn);
+                validering.ComboBoxValidering(comboBox1.Text);
+                string namn = textBox2.Text;
+                Object kategoriTextObj = comboBox1.SelectedItem;
+                string kategoriText = kategoriTextObj.ToString();
+                Kategori kategori = new Kategori(kategoriText);
+                string url = textBox1.Text;
+                int index = mediaKontroller.GetIndexMediaFeed(senastePodcast.Namn);
+                mediaKontroller.UpdateMediaFeed(index, url, namn, kategori);
+
+                dataGridView1.Rows.Clear();
+
+                fyllPodcastGridView();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void dataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            DataGridViewRow row = dataGridView1.Rows[index];
+
+
+            if (row.Cells[0].Value == null)
+            {
+                MessageBox.Show("Välj en podcast");
+            }
+            else
+            {
+                string senastValdaPod = row.Cells[0].Value.ToString();
+
+                List<Podcast> podLista = getAllPodcast();
+                int indexPod = mediaKontroller.GetIndexMediaFeed(senastValdaPod);
+                senastePodcast = podLista[indexPod];
+                textBox1.Text = senastePodcast.Url;
+                textBox2.Text = senastePodcast.Namn;
+
+                fyllAvsnitt(senastePodcast);
+            }
+        }
+
+        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            DataGridViewRow row = dataGridView2.Rows[index];
+
+            if (row.Cells[0].Value == null)
+            {
+                MessageBox.Show("Välj ett avsnitt");
+            }
+            else
+            {
+                string avsnittNamn = row.Cells[0].Value.ToString();
+                fyllAvsnitt(avsnittNamn);
+            }
+        }
+
+        private void fyllAvsnitt(string namn)
+        {
+
+
+            int index = mediaKontroller.GetIndexMediaFeed(textBox2.Text);
+            List<Podcast> podcastLista = getAllPodcast();
+            Podcast pod = podcastLista[index];
+
+
+            Avsnitt beskrivningAvsnitt = pod.AvsnittLista.FirstOrDefault(avsnitt => avsnitt.Titel == namn);
+
+            if (beskrivningAvsnitt != null)
+            {
+                listBox4.Items.Clear();
+                listBox4.Items.Add(beskrivningAvsnitt.Beskrivning);
+            }
+            else
+            {
+                listBox4.Items.Clear();
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            List<Podcast> podcastLista = mediaKontroller.GetAllMediaFeed();
+            dataGridView1.Rows.Clear();
+
+            foreach (Podcast pod in podcastLista)
+            {
+                mediaKontroller.DeleteMediaFeed(pod.Namn);
+                mediaKontroller.CreateMediaFeed(pod.Url, pod.Namn, pod.Kategori);
+            }
+            fyllPodcastGridView();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                validering.CheckIfSelected(senasteKategori.Namn);
+                string nyttKategoriNamn = textBox3.Text;
+                kategoriKontroller.Update(nyttKategoriNamn, senasteKategori.Namn);
+
+                listBox3.Items.Clear();
+
+                foreach (var item in from Kategori item in kategoriKontroller.GetAll()
+                                     where kategoriKontroller.GetAll().Contains(item) == false
+                                     select item)
+                {
+
+                    listBox3.Items.Add(item.Namn);
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                string valdKategori = "";
+                if (listBox3.SelectedItem != null)
+                {
+                    valdKategori = listBox3.SelectedItem.ToString();
+                }
+
+                int index = kategoriKontroller.GetIndex(valdKategori);
+                List<Kategori> listaKategori = kategoriKontroller.GetAll();
+                senasteKategori = listaKategori[index];
+                validering.CheckIfSelected(senasteKategori.Namn);
+                textBox3.Text = senasteKategori.Namn;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Clear();
+
+            fyllPodcastGridView();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                validering.CheckIfSelected(senasteKategori.Namn);
+
+                List<Podcast> sorteradPodcast = mediaKontroller.GetAllMediaFeed().Where(p => p.Kategori.Namn == senasteKategori.Namn).ToList();
+
+                dataGridView1.Rows.Clear();
+
+                foreach (Podcast podcast in sorteradPodcast)
+                {
+                    int rowIndex = dataGridView1.Rows.Add();
+
+                    dataGridView1.Rows[rowIndex].Cells["Namn"].Value = podcast.Namn;
+                    dataGridView1.Rows[rowIndex].Cells["Avsnitt"].Value = podcast.AntalAvsnitt;
+                    dataGridView1.Rows[rowIndex].Cells["Kategori"].Value = podcast.Kategori.Namn;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
 

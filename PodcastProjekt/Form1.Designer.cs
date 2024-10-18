@@ -42,9 +42,7 @@
             button2 = new Button();
             button3 = new Button();
             button4 = new Button();
-            button5 = new Button();
             button6 = new Button();
-            button7 = new Button();
             label7 = new Label();
             listBox4 = new ListBox();
             button8 = new Button();
@@ -57,6 +55,9 @@
             Column5 = new DataGridViewTextBoxColumn();
             label8 = new Label();
             textBox3 = new TextBox();
+            button5 = new Button();
+            button9 = new Button();
+            button10 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
@@ -161,7 +162,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(474, 47);
+            button1.Location = new Point(474, 83);
             button1.Margin = new Padding(2, 1, 2, 1);
             button1.Name = "button1";
             button1.Size = new Size(81, 22);
@@ -171,7 +172,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(474, 80);
+            button2.Location = new Point(474, 121);
             button2.Margin = new Padding(2, 1, 2, 1);
             button2.Name = "button2";
             button2.Size = new Size(81, 22);
@@ -182,17 +183,18 @@
             // 
             // button3
             // 
-            button3.Location = new Point(474, 114);
+            button3.Location = new Point(474, 162);
             button3.Margin = new Padding(2, 1, 2, 1);
             button3.Name = "button3";
             button3.Size = new Size(81, 22);
             button3.TabIndex = 14;
             button3.Text = "Uppdatera";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button4
             // 
-            button4.Location = new Point(63, 162);
+            button4.Location = new Point(79, 162);
             button4.Margin = new Padding(2, 1, 2, 1);
             button4.Name = "button4";
             button4.Size = new Size(106, 22);
@@ -201,35 +203,16 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
-            // button5
-            // 
-            button5.Location = new Point(17, 449);
-            button5.Margin = new Padding(2, 1, 2, 1);
-            button5.Name = "button5";
-            button5.Size = new Size(100, 22);
-            button5.TabIndex = 16;
-            button5.Text = "Ändra Namn";
-            button5.UseVisualStyleBackColor = true;
-            // 
             // button6
             // 
-            button6.Location = new Point(133, 449);
+            button6.Location = new Point(104, 449);
             button6.Margin = new Padding(2, 1, 2, 1);
             button6.Name = "button6";
             button6.Size = new Size(81, 22);
             button6.TabIndex = 17;
             button6.Text = "Ta bort";
             button6.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            button7.Location = new Point(474, 149);
-            button7.Margin = new Padding(2, 1, 2, 1);
-            button7.Name = "button7";
-            button7.Size = new Size(81, 35);
-            button7.TabIndex = 18;
-            button7.Text = "Ändra namn";
-            button7.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
             // 
             // label7
             // 
@@ -254,13 +237,14 @@
             // 
             // button8
             // 
-            button8.Location = new Point(230, 449);
+            button8.Location = new Point(199, 449);
             button8.Margin = new Padding(2, 1, 2, 1);
             button8.Name = "button8";
             button8.Size = new Size(81, 22);
             button8.TabIndex = 21;
             button8.Text = "Uppdatera";
             button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
             // 
             // dataGridView1
             // 
@@ -330,16 +314,49 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(474, 17);
+            textBox3.Location = new Point(474, 44);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(81, 23);
             textBox3.TabIndex = 25;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(326, 228);
+            button5.Name = "button5";
+            button5.Size = new Size(141, 23);
+            button5.TabIndex = 26;
+            button5.Text = "Uppdatera alla flöden";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
+            // button9
+            // 
+            button9.Location = new Point(17, 449);
+            button9.Name = "button9";
+            button9.Size = new Size(75, 23);
+            button9.TabIndex = 27;
+            button9.Text = "Återställ";
+            button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
+            // 
+            // button10
+            // 
+            button10.Location = new Point(496, 449);
+            button10.Name = "button10";
+            button10.Size = new Size(75, 23);
+            button10.TabIndex = 28;
+            button10.Text = "Sortera";
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(891, 490);
+            Controls.Add(button10);
+            Controls.Add(button9);
+            Controls.Add(button5);
             Controls.Add(textBox3);
             Controls.Add(label8);
             Controls.Add(dataGridView2);
@@ -347,9 +364,7 @@
             Controls.Add(button8);
             Controls.Add(listBox4);
             Controls.Add(label7);
-            Controls.Add(button7);
             Controls.Add(button6);
-            Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -390,9 +405,7 @@
         private Button button2;
         private Button button3;
         private Button button4;
-        private Button button5;
         private Button button6;
-        private Button button7;
         private Label label7;
         private ListBox listBox4;
         private Button button8;
@@ -405,5 +418,8 @@
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column4;
         private TextBox textBox3;
+        private Button button5;
+        private Button button9;
+        private Button button10;
     }
 }
