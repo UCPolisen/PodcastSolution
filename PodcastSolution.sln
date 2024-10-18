@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodcastProjekt", "PodcastPr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{20E119F7-9AEB-45C0-932C-C4BBD0D95FAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{12EA21E1-73B6-401B-B099-EEF27BEE2D72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{12EA21E1-73B6-401B-B099-EEF27BEE2D72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modell", "Modell\Modell.csproj", "{C09311D0-D185-4532-BC46-CACD9C02E852}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modell", "Modell\Modell.csproj", "{C09311D0-D185-4532-BC46-CACD9C02E852}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
