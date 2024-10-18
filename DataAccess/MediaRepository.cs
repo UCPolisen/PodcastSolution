@@ -90,9 +90,9 @@ namespace DataAccess
             {
                 listaMedAllaPodcats = serializer.DeSerializePodcast();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
 
             return listaMedAllaPodcats;
@@ -119,9 +119,9 @@ namespace DataAccess
             {
                 serializer.Serialize(podcastLista);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
     }

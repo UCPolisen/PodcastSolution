@@ -8,7 +8,7 @@ namespace Modell
 {
     public class Podcast : Feed
     {
-        public List<Avsnitt> AvsnittLista { get; set; }
+        public List<Avsnitt>? AvsnittLista { get; set; }
 
 
         public Podcast(string url, string namn,Kategori kategori) : base(url, namn, kategori) 
