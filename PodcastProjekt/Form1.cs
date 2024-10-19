@@ -38,9 +38,10 @@ namespace PodcastProjekt
 
                 int rowIndex = dataGridView1.Rows.Add();
 
+                dataGridView1.Rows[rowIndex].Cells["URL"].Value = item.Url;
                 dataGridView1.Rows[rowIndex].Cells["Namn"].Value = item.Namn;
-                dataGridView1.Rows[rowIndex].Cells["Avsnitt"].Value = item.AntalAvsnitt;
                 dataGridView1.Rows[rowIndex].Cells["Kategori"].Value = item.Kategori.Namn;
+                dataGridView1.Rows[rowIndex].Cells["Avsnitt"].Value = item.AntalAvsnitt;
 
             }
         }
