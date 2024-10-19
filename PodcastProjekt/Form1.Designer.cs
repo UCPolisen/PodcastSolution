@@ -170,6 +170,7 @@
             button1.TabIndex = 12;
             button1.Text = "Lägg till";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_1;
             // 
             // button2
             // 

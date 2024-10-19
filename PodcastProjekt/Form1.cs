@@ -16,6 +16,9 @@ namespace PodcastProjekt
         Kategori senasteKategori;
         Podcast senastePodcast;
 
+        RSSFeedService _rssService;
+        LokalLagringService _lagringService;
+
         public Form1()
         {
             InitializeComponent();
@@ -23,6 +26,9 @@ namespace PodcastProjekt
             kategoriKontroller = new KategoriKontroller();
             senasteKategori = new Kategori();
             senastePodcast = new Podcast();
+
+            _rssService = new RSSFeedService();
+            _lagringService = new LokalLagringService();
             StartInfo();
 
         }
@@ -57,7 +63,7 @@ namespace PodcastProjekt
             fyllPodcastGridView();
         }
 
-        private void LaggTillKategori_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -82,11 +88,10 @@ namespace PodcastProjekt
                 textBox3.Clear();
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -129,34 +134,56 @@ namespace PodcastProjekt
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private async void button4_Click(object sender, EventArgs e)
         {
             try
             {
+                // Kontrollera att en kategori är vald
+                if (comboBox1.SelectedItem == null)
+                {
+                    MessageBox.Show("Vänligen välj en kategori.");
+                    return;
+                }
+
+                // Kontrollera att en URL är angiven
+                if (string.IsNullOrEmpty(textBox1.Text))
+                {
+                    MessageBox.Show("Vänligen ange en giltig URL.");
+                    return;
+                }
+
+                // Validera URL och textfält
                 validering.ComboBoxValidering((string)comboBox1.SelectedItem);
                 validering.TextBoxValidering(textBox2.Text);
                 validering.ValideraURL(textBox1.Text);
                 validering.CheckIfExistsPod(textBox1.Text);
 
+                string rssUrl = textBox1.Text;
+                string kategoriText = comboBox1.SelectedItem.ToString();
 
-                string url = textBox1.Text;
-                string namn = textBox2.Text;
-                Object kategoriTextObj = comboBox1.SelectedItem;
-                string kategoriText = kategoriTextObj.ToString();
+                // Hämta podcasts via RSS
+                var avsnitt = await _rssService.HamtaRSSFlodeAsync(rssUrl);
 
+                // Kontrollera om avsnitt-listan är null
+                if (avsnitt == null || !avsnitt.Any())
+                {
+                    MessageBox.Show("Inga avsnitt hittades i RSS-flödet.");
+                    return;
+                }
 
+                // Lägg till podcasts i MediaFeedKontroller
+                foreach (var episode in avsnitt)
+                {
+                    Kategori kategori = new Kategori(kategoriText);
+                    mediaKontroller.CreateMediaFeed(episode.Titel, episode.Beskrivning, kategori);
+                }
 
-                Kategori kategori = new Kategori(kategoriText);
-
-                mediaKontroller.CreateMediaFeed(url, namn, kategori);
-
+                // Uppdatera GridView
                 fyllPodcastGridView();
-
             }
-
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                MessageBox.Show($"Fel vid hämtning av podcasts: {ex.Message}");
             }
         }
 
@@ -196,27 +223,29 @@ namespace PodcastProjekt
 
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private async void button8_Click(object sender, EventArgs e)
         {
             try
             {
                 validering.CheckIfSelected(senastePodcast.Namn);
                 validering.ComboBoxValidering(comboBox1.Text);
-                string namn = textBox2.Text;
-                Object kategoriTextObj = comboBox1.SelectedItem;
-                string kategoriText = kategoriTextObj.ToString();
-                Kategori kategori = new Kategori(kategoriText);
-                string url = textBox1.Text;
-                int index = mediaKontroller.GetIndexMediaFeed(senastePodcast.Namn);
-                mediaKontroller.UpdateMediaFeed(index, url, namn, kategori);
 
-                dataGridView1.Rows.Clear();
+                // Ladda podcasts från lokal lagring
+                var lagradeAvsnitt = await _lagringService.LaddaAvsnittAsync();
 
+                // Lägg till podcasts till MediaFeedKontroller
+                foreach (var episode in lagradeAvsnitt)
+                {
+                    Kategori kategori = new Kategori((string)comboBox1.SelectedItem);
+                    mediaKontroller.CreateMediaFeed(episode.Titel, episode.Beskrivning, kategori);
+                }
+
+                // Uppdatera GridView
                 fyllPodcastGridView();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                MessageBox.Show($"Fel vid laddning av lokala podcasts: {ex.Message}");
             }
         }
 
