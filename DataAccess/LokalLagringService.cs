@@ -11,7 +11,7 @@ namespace DataAccess
 {
     public class LokalLagringService
     {
-        private readonly string saveFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "podcasts.json");
+        private readonly string saveFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "podcasts.xml");
 
         public async Task SparaAvsnittAsync(List<Avsnitt> avsnitt)
         {
