@@ -53,7 +53,7 @@ namespace BusinessLayer.Kontroller
         {
             return reposi.GetIndex(namn); // Returnerar indexet för podcasten med det angivna namnet
         }
-
+        //a
         // Hämtar en lista med podcasts som tillhör en specifik kategori
         public List<Podcast> GetByKategoriMediaFeed(string Kategori)
         {
