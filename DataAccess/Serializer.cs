@@ -15,10 +15,14 @@ namespace DataAccess
             XmlReader serializer = XmlReader.Create(url);
             SyndicationFeed feed = SyndicationFeed.Load(serializer);
 
+            // Kontrollera att AvsnittLista inte är null, och instansiera den om det behövs
+            pod.AvsnittLista ??= new List<Avsnitt>();
+
             foreach (SyndicationItem item in feed.Items)
             {
                 Avsnitt avsnitt = new Avsnitt();
                 avsnitt.Titel = item.Title.Text;
+
                 if (item.Summary == null)
                 {
                     avsnitt.Beskrivning = "Saknar beskrivning";
@@ -28,11 +32,12 @@ namespace DataAccess
                     avsnitt.Beskrivning = item.Summary.Text;
                 }
 
+                // Lägg till avsnittet i listan
                 pod.AvsnittLista.Add(avsnitt);
                 pod.AntalAvsnitt++;
             }
-            return pod;
 
+            return pod;
         }
 
         public void Serialize(List<Podcast> podcastList)
@@ -76,25 +81,25 @@ namespace DataAccess
         public List<Kategori> GetKategoriList()
         {
             List<Kategori> kategoriLista = new List<Kategori>();
+
             try
             {
                 if (!File.Exists("kategori.xml"))
                 {
                     return new List<Kategori>();
                 }
-
                 else
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(List<Kategori>));
                     using (FileStream streamIn = new FileStream("kategori.xml", FileMode.Open, FileAccess.Read))
                     {
-                        kategoriLista = (List<Kategori>)serializer.Deserialize(streamIn);
+                        // Kontrollera om deserialisering returnerar null, tilldela en tom lista om det är fallet
+                        kategoriLista = (List<Kategori>?)serializer.Deserialize(streamIn) ?? new List<Kategori>();
                     }
 
                     return kategoriLista;
                 }
             }
-
             catch
             {
                 throw;
@@ -121,7 +126,7 @@ namespace DataAccess
                     XmlSerializer serializer = new XmlSerializer(typeof(List<Podcast>));
                     using (FileStream streamIn = new FileStream("podcasts.xml", FileMode.Open, FileAccess.Read))
                     {
-                        returnLista = (List<Podcast>)serializer.Deserialize(streamIn);
+                        returnLista = (List<Podcast>?)serializer.Deserialize(streamIn) ??  new List<Podcast>();
                     }
 
                     return returnLista;

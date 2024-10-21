@@ -26,7 +26,7 @@ namespace DataAccess
             List<Podcast> podcastByKategori = new List<Podcast>();
             foreach (Podcast item in podcastLista)
             {
-                if (string.Equals(item.Kategori.Namn, Kategori, StringComparison.OrdinalIgnoreCase))
+                if (item.Kategori != null && string.Equals(item.Kategori.Namn, Kategori, StringComparison.OrdinalIgnoreCase))
                 {
                     podcastByKategori.Add(item);
                 }
