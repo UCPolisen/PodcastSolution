@@ -16,8 +16,6 @@ namespace PodcastProjekt
         Kategori senasteKategori;
         Podcast senastePodcast;
 
-        RSSFeedService _rssService;
-        LokalLagringService _lagringService;
 
         public Form1()
         {
@@ -27,8 +25,6 @@ namespace PodcastProjekt
             senasteKategori = new Kategori();
             senastePodcast = new Podcast();
 
-            _rssService = new RSSFeedService();
-            _lagringService = new LokalLagringService();
             StartInfo();
 
         }
@@ -138,52 +134,32 @@ namespace PodcastProjekt
         {
             try
             {
-                // Kontrollera att en kategori är vald
-                if (comboBox1.SelectedItem == null)
-                {
-                    MessageBox.Show("Vänligen välj en kategori.");
-                    return;
-                }
-
-                // Kontrollera att en URL är angiven
-                if (string.IsNullOrEmpty(textBox1.Text))
-                {
-                    MessageBox.Show("Vänligen ange en giltig URL.");
-                    return;
-                }
-
-                // Validera URL och textfält
                 validering.ComboBoxValidering((string)comboBox1.SelectedItem);
                 validering.TextBoxValidering(textBox2.Text);
                 validering.ValideraURL(textBox1.Text);
                 validering.CheckIfExistsPod(textBox1.Text);
 
-                string rssUrl = textBox1.Text;
-                string kategoriText = comboBox1.SelectedItem.ToString();
 
-                // Hämta podcasts via RSS
-                var avsnitt = await _rssService.HamtaRSSFlodeAsync(rssUrl);
+                string url = textBox1.Text;
+                string namn = textBox2.Text;
+                Object kategoriTextObj = comboBox1.SelectedItem;
+                string kategoriText = kategoriTextObj.ToString();
 
-                // Kontrollera om avsnitt-listan är null
-                if (avsnitt == null || !avsnitt.Any())
-                {
-                    MessageBox.Show("Inga avsnitt hittades i RSS-flödet.");
-                    return;
-                }
 
-                // Lägg till podcasts i MediaFeedKontroller
-                foreach (var episode in avsnitt)
-                {
-                    Kategori kategori = new Kategori(kategoriText);
-                    mediaKontroller.CreateMediaFeed(episode.Titel, episode.Beskrivning, kategori);
-                }
 
-                // Uppdatera GridView
+                Kategori kategori = new Kategori(kategoriText);
+
+                mediaKontroller.CreateMediaFeed(url, namn, kategori);
+
                 fyllPodcastGridView();
+                await Task.Delay(1000);
+
+
             }
-            catch (Exception ex)
+
+            catch (Exception)
             {
-                MessageBox.Show($"Fel vid hämtning av podcasts: {ex.Message}");
+                throw;
             }
         }
 
@@ -197,7 +173,7 @@ namespace PodcastProjekt
 
                 fyllPodcastGridView();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -229,23 +205,21 @@ namespace PodcastProjekt
             {
                 validering.CheckIfSelected(senastePodcast.Namn);
                 validering.ComboBoxValidering(comboBox1.Text);
+                string namn = textBox2.Text;
+                Object kategoriTextObj = comboBox1.SelectedItem;
+                string kategoriText = kategoriTextObj.ToString();
+                Kategori kategori = new Kategori(kategoriText);
+                string url = textBox1.Text;
+                int index = mediaKontroller.GetIndexMediaFeed(senastePodcast.Namn);
+                mediaKontroller.UpdateMediaFeed(index, url, namn, kategori);
 
-                // Ladda podcasts från lokal lagring
-                var lagradeAvsnitt = await _lagringService.LaddaAvsnittAsync();
+                dataGridView1.Rows.Clear();
 
-                // Lägg till podcasts till MediaFeedKontroller
-                foreach (var episode in lagradeAvsnitt)
-                {
-                    Kategori kategori = new Kategori((string)comboBox1.SelectedItem);
-                    mediaKontroller.CreateMediaFeed(episode.Titel, episode.Beskrivning, kategori);
-                }
-
-                // Uppdatera GridView
                 fyllPodcastGridView();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show($"Fel vid laddning av lokala podcasts: {ex.Message}");
+                throw;
             }
         }
 
