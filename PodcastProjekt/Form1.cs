@@ -84,9 +84,9 @@ namespace PodcastProjekt
                 textBox3.Clear();
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ValideringEgenEx.CustomException(ex);
             }
         }
 

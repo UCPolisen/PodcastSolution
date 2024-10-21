@@ -11,7 +11,15 @@ namespace BusinessLayer
     {
         public static  void CustomException(Exception ex)
         {
-            throw new Exception(ex.Message);
+            //if (ex.GetType() == typeof(ValideringEx))
+            //{
+            //    MessageBox.Show(ex.Message, "Något gick fel med Valideringen", MessageBoxButtons.OK);
+            //}
+            //else
+            //{
+            //    MessageBox.Show(ex.Message, "Något har gått knasigt", MessageBoxButtons.OK);
+
+            //}
         }
     }
 }
