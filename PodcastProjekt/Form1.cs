@@ -348,14 +348,11 @@ namespace PodcastProjekt
             {
                 string senastValdaPod = row.Cells[0].Value?.ToString() ?? "Okänd podcast";
 
-                // Lägg till för felsökning: visa vilket podcastnamn som valts
-                MessageBox.Show("Vald podcast: " + senastValdaPod);
-
                 // Hämta alla podcasts med hjälp av getAllPodcast
                 List<Podcast> podLista = getAllPodcast();
 
                 // Hitta vald podcast och fyll avsnitt
-                Podcast? valdPod = podLista.FirstOrDefault(p => p.Namn == senastValdaPod);
+                Podcast? valdPod = podLista.FirstOrDefault(p => p.Url == senastValdaPod);
                 if (valdPod != null)
                 {
                     fyllAvsnitt(valdPod);
