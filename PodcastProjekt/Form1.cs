@@ -57,7 +57,7 @@ namespace PodcastProjekt
                 }
 
                 // Null-kontroll för item.AntalAvsnitt
-                dataGridView1.Rows[rowIndex].Cells["Column3"].Value = item.AntalAvsnitt.ToString();
+                dataGridView1.Rows[rowIndex].Cells["Column4"].Value = item.AntalAvsnitt.ToString();
             }
         }
 
@@ -181,11 +181,13 @@ namespace PodcastProjekt
                     return;
                 }
 
+                // Validera användarens inmatning
                 validering.ComboBoxValidering((string)comboBox1.SelectedItem);
                 validering.TextBoxValidering(textBox2.Text);
                 validering.ValideraURL(textBox1.Text);
                 validering.CheckIfExistsPod(textBox1.Text);
 
+                // Hämta data från input
                 string url = textBox1.Text;
                 string namn = textBox2.Text;
 
@@ -195,16 +197,35 @@ namespace PodcastProjekt
 
                 Kategori kategori = new Kategori(kategoriText);
 
-                mediaKontroller.CreateMediaFeed(url, namn, kategori);
+                // Skapa podcast och hämta avsnitten från RSS
+                LokalLagringService lagringService = new LokalLagringService();
+                Podcast podcast = lagringService.HämtaPodcastFrånRSS(url, namn, kategori);
 
+                // Kontrollera att podcast inte är null och att dess egenskaper inte är null
+                if (podcast != null && !string.IsNullOrEmpty(podcast.Url) && !string.IsNullOrEmpty(podcast.Namn) && podcast.Kategori != null)
+                {
+                    // Skicka podcasten till mediaKontroller för att hantera skapande
+                    mediaKontroller.CreateMediaFeed(podcast.Url, podcast.Namn, podcast.Kategori);
+                }
+                else
+                {
+                    MessageBox.Show("Podcast-data är inte fullständig.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Fyll grid view med uppdaterad information
                 fyllPodcastGridView();
+
+                // Vänta på uppdatering av UI
                 await Task.Delay(1000);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                MessageBox.Show($"Ett fel uppstod: {ex.Message}", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
 
         private void button6_Click(object sender, EventArgs e)
