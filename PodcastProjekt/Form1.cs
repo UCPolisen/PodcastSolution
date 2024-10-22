@@ -41,23 +41,23 @@ namespace PodcastProjekt
                 int rowIndex = dataGridView1.Rows.Add();
 
                 // Null-kontroll för item.Url
-                dataGridView1.Rows[rowIndex].Cells["URL"].Value = item.Url ?? "Ingen URL";
+                dataGridView1.Rows[rowIndex].Cells["Column2"].Value = item.Url ?? "Ingen URL";
 
                 // Null-kontroll för item.Namn
-                dataGridView1.Rows[rowIndex].Cells["Namn"].Value = item.Namn ?? "Ingen namn";
+                dataGridView1.Rows[rowIndex].Cells["Column1"].Value = item.Namn ?? "Ingen namn";
 
                 // Null-kontroll för item.Kategori och item.Kategori.Namn
                 if (item.Kategori != null)
                 {
-                    dataGridView1.Rows[rowIndex].Cells["Kategori"].Value = item.Kategori.Namn ?? "Ingen kategori";
+                    dataGridView1.Rows[rowIndex].Cells["Column3"].Value = item.Kategori.Namn ?? "Ingen kategori";
                 }
                 else
                 {
-                    dataGridView1.Rows[rowIndex].Cells["Kategori"].Value = "Ingen kategori";
+                    dataGridView1.Rows[rowIndex].Cells["Column3"].Value = "Ingen kategori";
                 }
 
                 // Null-kontroll för item.AntalAvsnitt
-                dataGridView1.Rows[rowIndex].Cells["Avsnitt"].Value = item.AntalAvsnitt.ToString();
+                dataGridView1.Rows[rowIndex].Cells["Column3"].Value = item.AntalAvsnitt.ToString();
             }
         }
 
@@ -556,11 +556,11 @@ namespace PodcastProjekt
                 {
                     int rowIndex = dataGridView1.Rows.Add();
 
-                    dataGridView1.Rows[rowIndex].Cells["Namn"].Value = podcast.Namn;
-                    dataGridView1.Rows[rowIndex].Cells["Avsnitt"].Value = podcast.AntalAvsnitt;
+                    dataGridView1.Rows[rowIndex].Cells["Column1"].Value = podcast.Namn;
+                    dataGridView1.Rows[rowIndex].Cells["Column4"].Value = podcast.AntalAvsnitt;
 
                     // Null-kontroll för podcast.Kategori och podcast.Kategori.Namn
-                    dataGridView1.Rows[rowIndex].Cells["Kategori"].Value = podcast.Kategori?.Namn ?? "Okänd kategori";
+                    dataGridView1.Rows[rowIndex].Cells["Column3"].Value = podcast.Kategori?.Namn ?? "Okänd kategori";
                 }
             }
             catch (Exception ex)
