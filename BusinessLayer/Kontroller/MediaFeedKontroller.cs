@@ -49,10 +49,25 @@ namespace BusinessLayer.Kontroller
         }
 
         // Hämtar index för en podcast baserat på dess namn
-        public int GetIndexMediaFeed(string namn)
+        public int GetIndexMediaFeed(string podcastNamn)
         {
-            return reposi.GetIndex(namn); // Returnerar indexet för podcasten med det angivna namnet
+            List<Podcast> podLista = GetAllMediaFeed(); // Hämta alla podcasts
+
+            for (int i = 0; i < podLista.Count; i++)
+            {
+                // Null-conditional operator används för att hantera podLista[i] och podLista[i].Namn
+                if (podLista[i]?.Namn?.Equals(podcastNamn, StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    return i; // Returnera index om podcasten hittas
+                }
+            }
+            return -1; // Returnera -1 om podcasten inte hittas
         }
+
+
+
+
+
         //a
         // Hämtar en lista med podcasts som tillhör en specifik kategori
         public List<Podcast> GetByKategoriMediaFeed(string Kategori)
@@ -61,5 +76,19 @@ namespace BusinessLayer.Kontroller
             podLista = reposi.GetByKategori(Kategori); // Hämtar podcasts som matchar kategorin
             return podLista; // Returnerar listan med podcasts för den valda kategorin
         }
+
+        public List<Avsnitt> GetAvsnittForPodcast(Podcast podcast)
+        {
+            // Kontrollera om podcasten inte är null och innehåller avsnitt
+            if (podcast != null && podcast.AvsnittLista != null)
+            {
+                return podcast.AvsnittLista; // Returnera listan med avsnitt
+            }
+            else
+            {
+                return new List<Avsnitt>(); // Returnera en tom lista om inga avsnitt hittades
+            }
+        }
+
     }
 }
