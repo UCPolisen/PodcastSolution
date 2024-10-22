@@ -351,6 +351,7 @@ namespace PodcastProjekt
                 // Hämta alla podcasts med hjälp av getAllPodcast
                 List<Podcast> podLista = getAllPodcast();
 
+
                 // Hitta vald podcast och fyll avsnitt
                 Podcast? valdPod = podLista.FirstOrDefault(p => p.Url == senastValdaPod);
                 if (valdPod != null)
@@ -367,22 +368,33 @@ namespace PodcastProjekt
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
+
+            // Ensure the index is valid
+            if (index < 0 || index >= dataGridView2.Rows.Count)
+            {
+                MessageBox.Show("Ogiltig rad!");
+                return;
+            }
+
             DataGridViewRow row = dataGridView2.Rows[index];
 
-            // Null-kontroll för row.Cells[0].Value
-            if (row.Cells[0].Value == null)
+            // Check if the cell value is null
+            var cellValue = row.Cells[0].Value;
+
+            // Use the null-coalescing operator to safely get the string value
+            string avsnittNamn = cellValue?.ToString() ?? string.Empty;
+
+            // Check if avsnittNamn is not null or empty before calling the method
+            if (!string.IsNullOrEmpty(avsnittNamn))
             {
-                MessageBox.Show("Välj ett avsnitt");
+                fyllBeskrivningAvsnitt(avsnittNamn); // Now it's guaranteed not to be null or empty
             }
             else
             {
-                // Använd null-coalescing operator för att säkerställa att värdet inte är null
-                string avsnittNamn = row.Cells[0].Value?.ToString() ?? "Okänt avsnitt";
-
-                // Kalla på fyllAvsnitt med avsnittNamn
-                fyllBeskrivningAvsnitt(avsnittNamn);
+                MessageBox.Show("Välj ett avsnitt med värde!");
             }
         }
+
 
 
 
