@@ -218,6 +218,10 @@ namespace PodcastProjekt
 
                 // Vänta på uppdatering av UI
                 await Task.Delay(1000);
+
+                // Rensa textrutorna
+                textBox1.Clear();
+                textBox2.Clear();
             }
             catch (Exception ex)
             {
