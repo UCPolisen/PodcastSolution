@@ -257,18 +257,21 @@ namespace PodcastProjekt
         {
             dataGridView2.Rows.Clear();
 
-            // Null-kontroll för pod.AvsnittLista
+            // Null-check for pod.AvsnittLista
             if (pod.AvsnittLista == null || pod.AvsnittLista.Count == 0)
             {
                 MessageBox.Show("Inga avsnitt tillgängliga för denna podcast.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            foreach (Avsnitt avsnitt in pod.AvsnittLista)
+            // Loop through the episodes in the AvsnittLista and populate dataGridView2
+            foreach (var avsnitt in pod.AvsnittLista)
             {
-                dataGridView2.Rows.Add(avsnitt.Titel);
+                int rowIndex = dataGridView2.Rows.Add();
+                dataGridView2.Rows[rowIndex].Cells["Column5"].Value = avsnitt.Titel; 
             }
         }
+
 
 
         private List<Podcast> getAllPodcast()
@@ -413,53 +416,53 @@ namespace PodcastProjekt
                 string avsnittNamn = row.Cells[0].Value?.ToString() ?? "Okänt avsnitt";
 
                 // Kalla på fyllAvsnitt med avsnittNamn
-                fyllAvsnitt(avsnittNamn);
+                fyllBeskrivningAvsnitt(avsnittNamn);
             }
         }
 
 
 
-        private void fyllAvsnitt(string namn)
+        private void fyllBeskrivningAvsnitt(string namn)
         {
+            // Retrieve the index of the media feed based on the textBox2 content
             int index = mediaKontroller.GetIndexMediaFeed(textBox2.Text);
-            List<Podcast> podcastLista = getAllPodcast();
+            List<Podcast> podcastLista = mediaKontroller.GetAllMediaFeed(); // Corrected to fetch the correct podcast list
 
-            // Säkerställ att index är giltigt
+            // Ensure the index is valid within the podcast list
             if (index >= 0 && index < podcastLista.Count)
             {
                 Podcast pod = podcastLista[index];
 
-                // Null-kontroll för pod.AvsnittLista
+                // Ensure the episode list (AvsnittLista) is not null or empty
                 if (pod.AvsnittLista != null && pod.AvsnittLista.Count > 0)
                 {
-                    // Hämta första avsnittet som matchar namnet eller null om inget hittas
+                    // Fetch the first episode matching the provided name or return null if not found
                     Avsnitt? beskrivningAvsnitt = pod.AvsnittLista.FirstOrDefault(avsnitt => avsnitt?.Titel == namn);
 
                     if (beskrivningAvsnitt != null)
                     {
                         listBox4.Items.Clear();
 
-                        // Null-kontroll för beskrivningAvsnitt.Beskrivning innan du lägger till det i listBox4
+                        // Ensure description exists before adding to listBox4
                         string beskrivning = beskrivningAvsnitt.Beskrivning ?? "Ingen beskrivning tillgänglig";
                         listBox4.Items.Add(beskrivning);
                     }
                     else
                     {
-                        listBox4.Items.Clear();
+                        MessageBox.Show("Inget avsnitt matchar namnet.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 else
                 {
                     MessageBox.Show("Inga avsnitt tillgängliga för denna podcast.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    listBox4.Items.Clear();
                 }
             }
             else
             {
-                MessageBox.Show("Podcasten hittades inte.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                listBox4.Items.Clear();
+                MessageBox.Show("Podcast kunde inte hittas.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
 
