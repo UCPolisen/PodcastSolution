@@ -340,65 +340,32 @@ namespace PodcastProjekt
             int index = e.RowIndex;
             DataGridViewRow row = dataGridView1.Rows[index];
 
-            // Null-kontroll för row.Cells[0].Value
             if (row.Cells[0].Value == null)
             {
                 MessageBox.Show("Välj en podcast");
             }
             else
             {
-                // Använd null-coalescing operator för att säkerställa att värdet inte är null
                 string senastValdaPod = row.Cells[0].Value?.ToString() ?? "Okänd podcast";
 
                 // Lägg till för felsökning: visa vilket podcastnamn som valts
                 MessageBox.Show("Vald podcast: " + senastValdaPod);
 
-                // Använd mediaKontroller för att anropa GetAllMediaFeed
-                List<Podcast> podLista = mediaKontroller.GetAllMediaFeed();
+                // Hämta alla podcasts med hjälp av getAllPodcast
+                List<Podcast> podLista = getAllPodcast();
 
-
-                // Lägg till för felsökning: visa antal podcasts i listan
-                MessageBox.Show("Antal podcasts i listan: " + podLista.Count);
-
-                // Jämför varje podcast-namn i listan med det valda namnet
-                bool podcastFound = false;
-                foreach (var pod in podLista)
+                // Hitta vald podcast och fyll avsnitt
+                Podcast? valdPod = podLista.FirstOrDefault(p => p.Namn == senastValdaPod);
+                if (valdPod != null)
                 {
-                    // Kontrollera om pod.Namn inte är null innan vi gör jämförelsen
-                    if (!string.IsNullOrEmpty(pod.Namn) && pod.Namn.Equals(senastValdaPod, StringComparison.OrdinalIgnoreCase))
-                    {
-                        podcastFound = true;
-                        senastePodcast = pod;
-                        break;
-                    }
-                }
-
-
-                if (podcastFound)
-                {
-                    textBox1.Text = senastePodcast.Namn; // Uppdatera textrutan med podcastens namn
-
-                    // Hämta avsnitt för den valda podcasten
-                    List<Avsnitt> avsnittsLista = mediaKontroller.GetAvsnittForPodcast(senastePodcast);
-
-                    // Rensa gamla avsnitt
-                    dataGridView2.Rows.Clear();
-
-                    // Lägg till avsnitten i dataGridView2
-                    foreach (var avsnitt in avsnittsLista)
-                    {
-                        dataGridView2.Rows.Add(avsnitt.Titel);
-                    }
+                    fyllAvsnitt(valdPod);
                 }
                 else
                 {
-                    MessageBox.Show("Podcast inte hittad i listan");
+                    MessageBox.Show("Podcast hittades inte.");
                 }
             }
         }
-
-
-
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -426,7 +393,7 @@ namespace PodcastProjekt
         {
             // Retrieve the index of the media feed based on the textBox2 content
             int index = mediaKontroller.GetIndexMediaFeed(textBox2.Text);
-            List<Podcast> podcastLista = mediaKontroller.GetAllMediaFeed(); // Corrected to fetch the correct podcast list
+            List<Podcast> podcastLista = getAllPodcast(); // Corrected to fetch the correct podcast list
 
             // Ensure the index is valid within the podcast list
             if (index >= 0 && index < podcastLista.Count)
