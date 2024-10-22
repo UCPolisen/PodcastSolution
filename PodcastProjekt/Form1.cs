@@ -234,26 +234,7 @@ namespace PodcastProjekt
 
         private void button6_Click(object sender, EventArgs e)
         {
-            try
-            {
-                // Null-kontroll för senastePodcast.Namn
-                if (string.IsNullOrEmpty(senastePodcast?.Namn))
-                {
-                    MessageBox.Show("Ingen podcast vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                validering.CheckIfSelected(senastePodcast.Namn);
-
-                string podNamn = senastePodcast.Namn;
-                mediaKontroller.DeleteMediaFeed(podNamn);
-
-                fyllPodcastGridView();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            
         }
 
 
