@@ -5,6 +5,7 @@ using DataAccess;
 using BusinessLayer.Kontroller;
 using System.Diagnostics;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace PodcastProjekt
 {
@@ -273,31 +274,64 @@ namespace PodcastProjekt
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            int index = e.RowIndex;
-            DataGridViewRow row = dataGridView1.Rows[index];
-
-            if (row.Cells[0].Value == null)
+            try
             {
-                MessageBox.Show("Välj en podcast");
+                int index = e.RowIndex;
+
+                // Make sure the row index is valid
+                if (index >= 0)
+                {
+                    DataGridViewRow row = dataGridView1.Rows[index];
+
+                    // Check if the name (Column1) or URL (Column0) is empty
+                    if (row.Cells["Column1"].Value == null)
+                    {
+                        MessageBox.Show("Välj en podcast");
+                        return;
+                    }
+
+                    // Retrieve the podcast name from Column1 (this should be the name, not the URL)
+                    string senastValdaNamn = row.Cells["Column1"].Value?.ToString() ?? "Okänt namn";
+
+                    // Retrieve the podcast URL from Column0 (assuming it's the URL column)
+                    string senastValdaPod = row.Cells["Column2"].Value?.ToString() ?? "Okänd podcast";
+
+                    // Fetch all podcasts
+                    List<Podcast> podLista = getAllPodcast();
+
+                    // Find the selected podcast either by URL or Name
+                    Podcast? valdPod = podLista.FirstOrDefault(p => p.Url == senastValdaPod);
+                    Podcast? valdPodnamn = podLista.FirstOrDefault(p => p.Namn == senastValdaNamn);
+
+                    // If either match, we proceed with filling episodes
+                    if (valdPod != null || valdPodnamn != null)
+                    {
+                        Podcast? selectedPodcast = valdPod ?? valdPodnamn;
+
+                        // Call the method to fill the episodes for the selected podcast
+                        if (selectedPodcast != null)
+                        {
+                            // Call the method to fill the episodes for the selected podcast
+                            fyllAvsnitt(selectedPodcast);
+
+                            // Clear and set the name in textBox2
+                            textBox2.Clear();
+                            textBox2.Text = senastValdaNamn;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Podcast hittades inte.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Podcast hittades inte.");
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                string senastValdaPod = row.Cells[0].Value?.ToString() ?? "Okänd podcast";
-
-                // Hämta alla podcasts med hjälp av getAllPodcast
-                List<Podcast> podLista = getAllPodcast();
-
-
-                // Hitta vald podcast och fyll avsnitt
-                Podcast? valdPod = podLista.FirstOrDefault(p => p.Url == senastValdaPod);
-                if (valdPod != null)
-                {
-                    fyllAvsnitt(valdPod);
-                }
-                else
-                {
-                    MessageBox.Show("Podcast hittades inte.");
-                }
+                MessageBox.Show($"Ett fel uppstod: {ex.Message}", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -466,6 +500,45 @@ namespace PodcastProjekt
             {
                 // Null-kontroll för senasteKategori.Namn
                 if (string.IsNullOrEmpty(senasteKategori?.Namn))
+                {
+                    MessageBox.Show("Ingen kategori vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                validering.CheckIfSelected(senasteKategori.Namn);
+
+                string nyttKategoriNamn = textBox3.Text;
+                kategoriKontroller.Update(nyttKategoriNamn, senasteKategori.Namn);
+
+                listBox3.Items.Clear();
+
+                foreach (var item in from Kategori item in kategoriKontroller.GetAll()
+                                     where !kategoriKontroller.GetAll().Contains(item)
+                                     select item)
+                {
+                    // Null-kontroll för item.Namn
+                    if (!string.IsNullOrEmpty(item?.Namn))
+                    {
+                        listBox3.Items.Add(item.Namn);
+                    }
+                    else
+                    {
+                        listBox3.Items.Add("Okänd kategori");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ett fel inträffade: " + ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Null-kontroll för senasteKategori.Namn
+                if (string.IsNullOrEmpty(senastePodcast?.Namn))
                 {
                     MessageBox.Show("Ingen kategori vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;

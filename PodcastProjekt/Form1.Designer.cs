@@ -58,72 +58,73 @@
             textBox4 = new TextBox();
             listBox1 = new ListBox();
             button7 = new Button();
+            button11 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(32, 100);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(17, 47);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(109, 32);
+            label1.Size = new Size(55, 15);
             label1.TabIndex = 0;
             label1.Text = "RSS/URL:";
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(147, 100);
-            textBox1.Margin = new Padding(4, 2, 4, 2);
+            textBox1.Location = new Point(79, 47);
+            textBox1.Margin = new Padding(2, 1, 2, 1);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(288, 39);
+            textBox1.Size = new Size(157, 23);
             textBox1.TabIndex = 1;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(32, 177);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(17, 83);
+            label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(84, 32);
+            label2.Size = new Size(43, 15);
             label2.TabIndex = 2;
             label2.Text = "Namn:";
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(147, 171);
-            textBox2.Margin = new Padding(4, 2, 4, 2);
+            textBox2.Location = new Point(79, 80);
+            textBox2.Margin = new Padding(2, 1, 2, 1);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(290, 39);
+            textBox2.Size = new Size(158, 23);
             textBox2.TabIndex = 3;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(32, 256);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(17, 120);
+            label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(108, 32);
+            label3.Size = new Size(54, 15);
             label3.TabIndex = 4;
             label3.Text = "Kategori:";
             // 
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(147, 256);
-            comboBox1.Margin = new Padding(4, 2, 4, 2);
+            comboBox1.Location = new Point(79, 120);
+            comboBox1.Margin = new Padding(2, 1, 2, 1);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(290, 40);
+            comboBox1.Size = new Size(158, 23);
             comboBox1.TabIndex = 5;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            label4.Location = new Point(32, 503);
-            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Location = new Point(17, 236);
+            label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
-            label4.Size = new Size(119, 32);
+            label4.Size = new Size(61, 15);
             label4.TabIndex = 7;
             label4.Text = "Podcasts";
             // 
@@ -131,10 +132,10 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            label5.Location = new Point(921, 503);
-            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Location = new Point(496, 236);
+            label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
-            label5.Size = new Size(100, 32);
+            label5.Size = new Size(51, 15);
             label5.TabIndex = 8;
             label5.Text = "Avsnitt";
             // 
@@ -142,29 +143,30 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            label6.Location = new Point(507, 36);
-            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Location = new Point(273, 17);
+            label6.Margin = new Padding(2, 0, 2, 0);
             label6.Name = "label6";
-            label6.Size = new Size(137, 32);
+            label6.Size = new Size(71, 15);
             label6.TabIndex = 10;
             label6.Text = "Kategorier";
             // 
             // listBox3
             // 
             listBox3.FormattingEnabled = true;
-            listBox3.Location = new Point(507, 100);
-            listBox3.Margin = new Padding(4, 2, 4, 2);
+            listBox3.ItemHeight = 15;
+            listBox3.Location = new Point(273, 47);
+            listBox3.Margin = new Padding(2, 1, 2, 1);
             listBox3.Name = "listBox3";
-            listBox3.Size = new Size(323, 356);
+            listBox3.Size = new Size(176, 169);
             listBox3.TabIndex = 11;
             listBox3.SelectedIndexChanged += listBox3_SelectedIndexChanged;
             // 
             // button1
             // 
-            button1.Location = new Point(877, 154);
-            button1.Margin = new Padding(4, 2, 4, 2);
+            button1.Location = new Point(472, 72);
+            button1.Margin = new Padding(2, 1, 2, 1);
             button1.Name = "button1";
-            button1.Size = new Size(150, 78);
+            button1.Size = new Size(81, 37);
             button1.TabIndex = 12;
             button1.Text = "Lägg till kategori";
             button1.UseVisualStyleBackColor = true;
@@ -172,10 +174,10 @@
             // 
             // button2
             // 
-            button2.Location = new Point(877, 256);
-            button2.Margin = new Padding(4, 2, 4, 2);
+            button2.Location = new Point(472, 120);
+            button2.Margin = new Padding(2, 1, 2, 1);
             button2.Name = "button2";
-            button2.Size = new Size(150, 82);
+            button2.Size = new Size(81, 38);
             button2.TabIndex = 13;
             button2.Text = "Ta bort kategori";
             button2.UseVisualStyleBackColor = true;
@@ -184,16 +186,17 @@
             // button3
             // 
             button3.Location = new Point(0, 0);
+            button3.Margin = new Padding(2, 1, 2, 1);
             button3.Name = "button3";
-            button3.Size = new Size(75, 23);
+            button3.Size = new Size(40, 11);
             button3.TabIndex = 33;
             // 
             // button4
             // 
-            button4.Location = new Point(147, 346);
-            button4.Margin = new Padding(4, 2, 4, 2);
+            button4.Location = new Point(79, 162);
+            button4.Margin = new Padding(2, 1, 2, 1);
             button4.Name = "button4";
-            button4.Size = new Size(197, 47);
+            button4.Size = new Size(106, 22);
             button4.TabIndex = 15;
             button4.Text = "Lägg till podcast";
             button4.UseVisualStyleBackColor = true;
@@ -201,10 +204,10 @@
             // 
             // button6
             // 
-            button6.Location = new Point(32, 958);
-            button6.Margin = new Padding(4, 2, 4, 2);
+            button6.Location = new Point(17, 449);
+            button6.Margin = new Padding(2, 1, 2, 1);
             button6.Name = "button6";
-            button6.Size = new Size(205, 47);
+            button6.Size = new Size(110, 22);
             button6.TabIndex = 17;
             button6.Text = "Ta bort podcast";
             button6.UseVisualStyleBackColor = true;
@@ -214,29 +217,30 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            label7.Location = new Point(1105, 36);
-            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Location = new Point(595, 17);
+            label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
-            label7.Size = new Size(153, 32);
+            label7.Size = new Size(79, 15);
             label7.TabIndex = 19;
             label7.Text = "Beskrivning";
             // 
             // button8
             // 
             button8.Location = new Point(0, 0);
+            button8.Margin = new Padding(2, 1, 2, 1);
             button8.Name = "button8";
-            button8.Size = new Size(75, 23);
+            button8.Size = new Size(40, 11);
             button8.TabIndex = 32;
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column2, Column1, Column3, Column4 });
-            dataGridView1.Location = new Point(32, 565);
-            dataGridView1.Margin = new Padding(4, 2, 4, 2);
+            dataGridView1.Location = new Point(17, 265);
+            dataGridView1.Margin = new Padding(2, 1, 2, 1);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 82;
-            dataGridView1.Size = new Size(836, 361);
+            dataGridView1.Size = new Size(450, 169);
             dataGridView1.TabIndex = 22;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -272,27 +276,25 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(32, 17);
-            label8.Margin = new Padding(4, 0, 4, 0);
+            label8.Location = new Point(17, 8);
+            label8.Margin = new Padding(2, 0, 2, 0);
             label8.Name = "label8";
-            label8.Size = new Size(299, 45);
+            label8.Size = new Size(149, 21);
             label8.TabIndex = 24;
             label8.Text = "Grupp 25 Podcast";
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(880, 100);
-            textBox3.Margin = new Padding(6);
+            textBox3.Location = new Point(474, 47);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(147, 39);
+            textBox3.Size = new Size(81, 23);
             textBox3.TabIndex = 25;
             // 
             // button5
             // 
-            button5.Location = new Point(287, 958);
-            button5.Margin = new Padding(6);
+            button5.Location = new Point(326, 449);
             button5.Name = "button5";
-            button5.Size = new Size(262, 47);
+            button5.Size = new Size(141, 22);
             button5.TabIndex = 26;
             button5.Text = "Uppdatera alla flöden";
             button5.UseVisualStyleBackColor = true;
@@ -301,16 +303,16 @@
             // button9
             // 
             button9.Location = new Point(0, 0);
+            button9.Margin = new Padding(2, 1, 2, 1);
             button9.Name = "button9";
-            button9.Size = new Size(75, 23);
+            button9.Size = new Size(40, 11);
             button9.TabIndex = 31;
             // 
             // button10
             // 
-            button10.Location = new Point(921, 958);
-            button10.Margin = new Padding(6);
+            button10.Location = new Point(496, 449);
             button10.Name = "button10";
-            button10.Size = new Size(139, 49);
+            button10.Size = new Size(75, 23);
             button10.TabIndex = 28;
             button10.Text = "Sortera";
             button10.UseVisualStyleBackColor = true;
@@ -318,36 +320,51 @@
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(1105, 100);
+            textBox4.Location = new Point(595, 47);
+            textBox4.Margin = new Padding(2, 1, 2, 1);
             textBox4.Multiline = true;
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(470, 356);
+            textBox4.Size = new Size(255, 169);
             textBox4.TabIndex = 29;
             // 
             // listBox1
             // 
             listBox1.FormattingEnabled = true;
-            listBox1.Location = new Point(921, 565);
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(496, 265);
+            listBox1.Margin = new Padding(2, 1, 2, 1);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(686, 356);
+            listBox1.Size = new Size(371, 169);
             listBox1.TabIndex = 30;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
             // button7
             // 
-            button7.Location = new Point(877, 366);
+            button7.Location = new Point(472, 172);
+            button7.Margin = new Padding(2, 1, 2, 1);
             button7.Name = "button7";
-            button7.Size = new Size(150, 90);
+            button7.Size = new Size(81, 42);
             button7.TabIndex = 34;
             button7.Text = "Uppdatera kNamn";
             button7.UseVisualStyleBackColor = true;
             button7.Click += button7_Click;
             // 
+            // button11
+            // 
+            button11.Location = new Point(142, 450);
+            button11.Name = "button11";
+            button11.Size = new Size(109, 22);
+            button11.TabIndex = 35;
+            button11.Text = "Uppdatera namn";
+            button11.UseVisualStyleBackColor = true;
+            button11.Click += button11_Click;
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1655, 1045);
+            ClientSize = new Size(891, 490);
+            Controls.Add(button11);
             Controls.Add(button7);
             Controls.Add(listBox1);
             Controls.Add(textBox4);
@@ -374,7 +391,7 @@
             Controls.Add(label2);
             Controls.Add(textBox1);
             Controls.Add(label1);
-            Margin = new Padding(4, 2, 4, 2);
+            Margin = new Padding(2, 1, 2, 1);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -415,5 +432,6 @@
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column4;
         private Button button7;
+        private Button button11;
     }
 }
