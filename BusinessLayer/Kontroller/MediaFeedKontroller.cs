@@ -65,7 +65,10 @@ namespace BusinessLayer.Kontroller
         }
 
 
-
+        public int GetPodcastIndex(string podcastName)
+        {
+            return reposi.GetIndex(podcastName);
+        }
 
 
         //a

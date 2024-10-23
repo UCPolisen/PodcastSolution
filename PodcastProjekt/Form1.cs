@@ -537,38 +537,38 @@ namespace PodcastProjekt
         {
             try
             {
-                // Null-kontroll för senasteKategori.Namn
+                // Null check for the latest podcast
                 if (string.IsNullOrEmpty(senastePodcast?.Namn))
                 {
-                    MessageBox.Show("Ingen kategori vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ingen podcast vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                validering.CheckIfSelected(senasteKategori.Namn);
-
-                string nyttKategoriNamn = textBox3.Text;
-                kategoriKontroller.Update(nyttKategoriNamn, senasteKategori.Namn);
-
-                listBox3.Items.Clear();
-
-                foreach (var item in from Kategori item in kategoriKontroller.GetAll()
-                                     where !kategoriKontroller.GetAll().Contains(item)
-                                     select item)
+                // Validate that the new name has been entered
+                if (string.IsNullOrEmpty(textBox2.Text))
                 {
-                    // Null-kontroll för item.Namn
-                    if (!string.IsNullOrEmpty(item?.Namn))
-                    {
-                        listBox3.Items.Add(item.Namn);
-                    }
-                    else
-                    {
-                        listBox3.Items.Add("Okänd kategori");
-                    }
+                    MessageBox.Show("Skriv in ett nytt namn för podcasten.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+
+                // Get the new podcast name from textBox2
+                string nyttPodcastNamn = textBox2.Text;
+
+                // Find the index of the selected podcast by its current name
+                int podcastIndex = mediaKontroller.GetPodcastIndex(senastePodcast.Namn);
+
+                // Update the podcast with the new name (keeping the same URL and category)
+                mediaKontroller.UpdateMediaFeed(podcastIndex, senastePodcast.Url, nyttPodcastNamn, senastePodcast.Kategori);
+
+                // Refresh the podcast list in the DataGridView
+                fyllPodcastGridView();
+
+                // Notify the user of the success
+                MessageBox.Show("Podcastens namn har uppdaterats.", "Framgång", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ett fel inträffade: " + ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ett fel uppstod: " + ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
