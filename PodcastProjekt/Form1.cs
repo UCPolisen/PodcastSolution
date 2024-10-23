@@ -340,24 +340,36 @@ namespace PodcastProjekt
             // Loop through the episodes in AvsnittLista and populate listBox1
             foreach (var avsnitt in pod.AvsnittLista)
             {
-                listBox1.Items.Add(avsnitt.Titel);
+                if (!string.IsNullOrEmpty(avsnitt?.Titel)) // Check if avsnitt and Titel are not null or empty
+                {
+                    listBox1.Items.Add(avsnitt.Titel);
+                }
             }
         }
 
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Kontrollera att något är valt
-            if (listBox1.SelectedIndex == -1 || senastePodcast == null)
+            // Kontrollera att något är valt och att senastePodcast inte är null
+            if (listBox1.SelectedIndex == -1 || senastePodcast == null || senastePodcast.AvsnittLista == null)
                 return;
 
-            // Hämta det valda avsnittet baserat på indexet från listBox1
-            var valtAvsnitt = senastePodcast.AvsnittLista[listBox1.SelectedIndex];
+            // Kontrollera att indexet är giltigt
+            if (listBox1.SelectedIndex < senastePodcast.AvsnittLista.Count)
+            {
+                // Hämta det valda avsnittet baserat på indexet från listBox1
+                var valtAvsnitt = senastePodcast.AvsnittLista[listBox1.SelectedIndex];
 
-            // Använd fyllBeskrivningAvsnitt-metoden för att fylla beskrivningen i textBox4
-            fyllBeskrivningAvsnitt(valtAvsnitt);
+                // Kontrollera att valtAvsnitt inte är null
+                if (valtAvsnitt != null)
+                {
+                    // Använd fyllBeskrivningAvsnitt-metoden för att fylla beskrivningen i textBox4
+                    fyllBeskrivningAvsnitt(valtAvsnitt);
+                }
+            }
         }
-    
+
+
 
         private void fyllBeskrivningAvsnitt(Avsnitt avsnitt)
         {
