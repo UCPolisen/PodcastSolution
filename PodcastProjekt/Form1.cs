@@ -234,9 +234,33 @@ namespace PodcastProjekt
 
         private void button6_Click(object sender, EventArgs e)
         {
+            // Check if a row is selected in dataGridView1
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                // Get the selected row index
+                int selectedIndex = dataGridView1.SelectedRows[0].Index;
 
+                // Safely get the podcast name from the selected row (assuming it's in Column1)
+                string podcastName = dataGridView1.Rows[selectedIndex].Cells["Column1"].Value?.ToString() ?? string.Empty;
+
+                if (!string.IsNullOrEmpty(podcastName))
+                {
+                    // Remove the podcast from the media controller using the DeleteMediaFeed method
+                    mediaKontroller.DeleteMediaFeed(podcastName);
+
+                    // Update the DataGridView by refilling it
+                    fyllPodcastGridView();
+                }
+                else
+                {
+                    MessageBox.Show("The selected podcast has no valid name.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a podcast to remove.");
+            }
         }
-
 
         private List<Podcast> getAllPodcast()
         {
