@@ -544,7 +544,7 @@ namespace PodcastProjekt
                     return;
                 }
 
-                // Validate that the new name has been entered
+                // Validate that a new name has been entered
                 if (string.IsNullOrEmpty(textBox2.Text))
                 {
                     MessageBox.Show("Skriv in ett nytt namn för podcasten.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -554,11 +554,17 @@ namespace PodcastProjekt
                 // Get the new podcast name from textBox2
                 string nyttPodcastNamn = textBox2.Text;
 
+                // Handle possible null reference for URL
+                string podcastUrl = senastePodcast.Url ?? "Ingen URL";  // Provide a default URL if it's null
+
+                // Handle possible null reference for Kategori
+                Kategori podcastKategori = senastePodcast.Kategori ?? new Kategori { Namn = "Ingen kategori" };  // Provide a default category if it's null
+
                 // Find the index of the selected podcast by its current name
                 int podcastIndex = mediaKontroller.GetPodcastIndex(senastePodcast.Namn);
 
-                // Update the podcast with the new name (keeping the same URL and category)
-                mediaKontroller.UpdateMediaFeed(podcastIndex, senastePodcast.Url, nyttPodcastNamn, senastePodcast.Kategori);
+                // Update the podcast with the new name, and handle the URL and category
+                mediaKontroller.UpdateMediaFeed(podcastIndex, podcastUrl, nyttPodcastNamn, podcastKategori);
 
                 // Refresh the podcast list in the DataGridView
                 fyllPodcastGridView();
