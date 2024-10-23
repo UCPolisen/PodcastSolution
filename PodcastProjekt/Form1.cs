@@ -234,7 +234,46 @@ namespace PodcastProjekt
 
         private void button6_Click(object sender, EventArgs e)
         {
-            
+            try
+            {
+                if (dataGridView1.SelectedRows.Count > 0)
+                {
+                    // Hämtar den valda podcasten från gridPodcasts, men var medveten om att den kan vara null.
+                    var dataBoundItem = dataGridView1.SelectedRows[0].DataBoundItem;
+                    if (dataBoundItem is Podcast selectedPodcast) // säkerställer att objektet är en Podcast
+                    {
+                        // Nu är vi säkra på att selectedPodcast inte är null och kan säkert komma åt dess ID.
+                        mediaKontroller?.DeleteMediaFeed(selectedPodcast.Namn);
+
+                        // Uppdatera gridPodcasts efter radering
+                        gridPodcasts.DataSource = null; // Ta bort datakällan
+                        gridPodcasts.DataSource = podcastController?.GetAllPodcasts(); // Fyll på igen med uppdaterad data
+
+                        MessageBox.Show("Den valda podcasten har nu raderats!");
+
+                        // Rensa informationen på startsidan så att den borttagna podcastens information inte visas
+                        startsidan.rensaPodcastinformation();
+
+                        //Uppdatera datagridview i denna form
+                        gridPodcasts.Refresh();
+
+                        // Uppdatera GridView i Startsida direkt efter att podcasten har raderats.
+                        startsidan.UppdateraGridMedPodcasts();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Det valda objektet är inte en giltig podcast.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Vänligen välj en podcast att radera.", "Ingen podcast vald", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex) // Här fångas eventuella undantag som uppstår i try-blocket.
+            {
+                MessageBox.Show(ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 
