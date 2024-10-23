@@ -168,8 +168,6 @@ namespace PodcastProjekt
         }
 
 
-
-
         private async void button4_Click(object sender, EventArgs e)
         {
             try
@@ -229,70 +227,10 @@ namespace PodcastProjekt
             }
         }
 
-
-
-
         private void button6_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (dataGridView1.SelectedRows.Count > 0)
-                {
-                    // Hämtar den valda podcasten från gridPodcasts, men var medveten om att den kan vara null.
-                    var dataBoundItem = dataGridView1.SelectedRows[0].DataBoundItem;
-                    if (dataBoundItem is Podcast selectedPodcast) // säkerställer att objektet är en Podcast
-                    {
-                        // Nu är vi säkra på att selectedPodcast inte är null och kan säkert komma åt dess ID.
-                        mediaKontroller?.DeleteMediaFeed(selectedPodcast.Namn);
 
-                        // Uppdatera gridPodcasts efter radering
-                        dataGridView1.DataSource = null; // Ta bort datakällan
-                        dataGridView1.DataSource = mediaKontroller?.GetAllMediaFeed(); // Fyll på igen med uppdaterad data
-
-                        MessageBox.Show("Den valda podcasten har nu raderats!");
-
-                        // Rensa informationen på startsidan så att den borttagna podcastens information inte visas
-                        dataGridView1.Rows.Clear();
-
-                        //Uppdatera datagridview i denna form
-                        fyllPodcastGridView();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Det valda objektet är inte en giltig podcast.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Vänligen välj en podcast att radera.", "Ingen podcast vald", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (Exception ex) // Här fångas eventuella undantag som uppstår i try-blocket.
-            {
-                MessageBox.Show(ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
-
-
-        private void fyllAvsnitt(Podcast pod)
-        {
-            dataGridView2.Rows.Clear();
-
-            // Null-check for pod.AvsnittLista
-            if (pod.AvsnittLista == null || pod.AvsnittLista.Count == 0)
-            {
-                MessageBox.Show("Inga avsnitt tillgängliga för denna podcast.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            // Loop through the episodes in the AvsnittLista and populate dataGridView2
-            foreach (var avsnitt in pod.AvsnittLista)
-            {
-                int rowIndex = dataGridView2.Rows.Add();
-                dataGridView2.Rows[rowIndex].Cells["Column5"].Value = avsnitt.Titel; 
-            }
-        }
-
 
 
         private List<Podcast> getAllPodcast()
@@ -386,82 +324,45 @@ namespace PodcastProjekt
             }
         }
 
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int index = e.RowIndex;
 
-            // Ensure the index is valid
-            if (index < 0 || index >= dataGridView2.Rows.Count)
+        private void fyllAvsnitt(Podcast pod)
+        {
+            listBox1.Items.Clear();
+            senastePodcast = pod;
+
+            // Null-check för pod.AvsnittLista
+            if (pod.AvsnittLista == null || pod.AvsnittLista.Count == 0)
             {
-                MessageBox.Show("Ogiltig rad!");
+                MessageBox.Show("Inga avsnitt tillgängliga för denna podcast.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            DataGridViewRow row = dataGridView2.Rows[index];
-
-            // Check if the cell value is null
-            var cellValue = row.Cells[0].Value;
-
-            // Use the null-coalescing operator to safely get the string value
-            string avsnittNamn = cellValue?.ToString() ?? string.Empty;
-
-            // Check if avsnittNamn is not null or empty before calling the method
-            if (!string.IsNullOrEmpty(avsnittNamn))
+            // Loop through the episodes in AvsnittLista and populate listBox1
+            foreach (var avsnitt in pod.AvsnittLista)
             {
-                fyllBeskrivningAvsnitt(avsnittNamn); // Now it's guaranteed not to be null or empty
-            }
-            else
-            {
-                MessageBox.Show("Välj ett avsnitt med värde!");
+                listBox1.Items.Add(avsnitt.Titel);
             }
         }
 
 
-
-
-        private void fyllBeskrivningAvsnitt(string namn)
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Retrieve the index of the media feed based on the textBox2 content
-            int index = mediaKontroller.GetIndexMediaFeed(textBox2.Text);
-            List<Podcast> podcastLista = getAllPodcast(); // Corrected to fetch the correct podcast list
+            // Kontrollera att något är valt
+            if (listBox1.SelectedIndex == -1 || senastePodcast == null)
+                return;
 
-            // Ensure the index is valid within the podcast list
-            if (index >= 0 && index < podcastLista.Count)
-            {
-                Podcast pod = podcastLista[index];
+            // Hämta det valda avsnittet baserat på indexet från listBox1
+            var valtAvsnitt = senastePodcast.AvsnittLista[listBox1.SelectedIndex];
 
-                // Ensure the episode list (AvsnittLista) is not null or empty
-                if (pod.AvsnittLista != null && pod.AvsnittLista.Count > 0)
-                {
-                    // Fetch the first episode matching the provided name or return null if not found
-                    Avsnitt? beskrivningAvsnitt = pod.AvsnittLista.FirstOrDefault(avsnitt => avsnitt?.Titel == namn);
-
-                    if (beskrivningAvsnitt != null)
-                    {
-                        listBox4.Items.Clear();
-
-                        // Ensure description exists before adding to listBox4
-                        string beskrivning = beskrivningAvsnitt.Beskrivning ?? "Ingen beskrivning tillgänglig";
-                        listBox4.Items.Add(beskrivning);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Inget avsnitt matchar namnet.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Inga avsnitt tillgängliga för denna podcast.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Podcast kunde inte hittas.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            // Använd fyllBeskrivningAvsnitt-metoden för att fylla beskrivningen i textBox4
+            fyllBeskrivningAvsnitt(valtAvsnitt);
         }
+    
 
-
-
+        private void fyllBeskrivningAvsnitt(Avsnitt avsnitt)
+        {
+            textBox4.Text = avsnitt.Beskrivning;
+        }
 
 
         private void button5_Click(object sender, EventArgs e)
@@ -484,8 +385,6 @@ namespace PodcastProjekt
             }
             fyllPodcastGridView();
         }
-
-
 
 
         private void button3_Click(object sender, EventArgs e)
@@ -527,8 +426,6 @@ namespace PodcastProjekt
             }
         }
 
-
-        //ingen  referens!!!!!!
         private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
