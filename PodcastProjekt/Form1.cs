@@ -246,19 +246,16 @@ namespace PodcastProjekt
                         mediaKontroller?.DeleteMediaFeed(selectedPodcast.Namn);
 
                         // Uppdatera gridPodcasts efter radering
-                        gridPodcasts.DataSource = null; // Ta bort datakällan
-                        gridPodcasts.DataSource = podcastController?.GetAllPodcasts(); // Fyll på igen med uppdaterad data
+                        dataGridView1.DataSource = null; // Ta bort datakällan
+                        dataGridView1.DataSource = mediaKontroller?.GetAllMediaFeed(); // Fyll på igen med uppdaterad data
 
                         MessageBox.Show("Den valda podcasten har nu raderats!");
 
                         // Rensa informationen på startsidan så att den borttagna podcastens information inte visas
-                        startsidan.rensaPodcastinformation();
+                        dataGridView1.Rows.Clear();
 
                         //Uppdatera datagridview i denna form
-                        gridPodcasts.Refresh();
-
-                        // Uppdatera GridView i Startsida direkt efter att podcasten har raderats.
-                        startsidan.UppdateraGridMedPodcasts();
+                        fyllPodcastGridView();
                     }
                     else
                     {
