@@ -30,6 +30,11 @@ namespace PodcastProjekt
 
         }
 
+        // Länk för RSS
+        // https://rss.podplaystudio.com/1477.xml
+        // https://feed.pod.space/alexosigge
+        // https://access.acast.com/rss/62d1f29df280fb0013f8a8a5/
+
         private void fyllPodcastGridView()
         {
             dataGridView1.Rows.Clear();
@@ -242,58 +247,6 @@ namespace PodcastProjekt
 
         }
 
-        private void button8_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Null-kontroll för senastePodcast.Namn
-                if (string.IsNullOrEmpty(senastePodcast?.Namn))
-                {
-                    MessageBox.Show("Ingen podcast vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                validering.CheckIfSelected(senastePodcast.Namn);
-
-                // Kontrollera att en kategori har valts i comboBox1
-                if (comboBox1.SelectedItem == null)
-                {
-                    MessageBox.Show("Ingen kategori vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                validering.ComboBoxValidering(comboBox1.Text);
-
-                // Null-kontroll för textBox2.Text (namn)
-                string namn = string.IsNullOrEmpty(textBox2.Text) ? "Okänt namn" : textBox2.Text;
-
-                // Hämta och konvertera SelectedItem från comboBox1
-                Object kategoriTextObj = comboBox1.SelectedItem;
-                string kategoriText = kategoriTextObj?.ToString() ?? "Okänd kategori";
-
-                Kategori kategori = new Kategori(kategoriText);
-
-                // Null-kontroll för textBox1.Text (url)
-                string url = string.IsNullOrEmpty(textBox1.Text) ? "Ingen URL" : textBox1.Text;
-
-                int index = mediaKontroller.GetIndexMediaFeed(senastePodcast.Namn);
-                if (index < 0)
-                {
-                    MessageBox.Show("Podcasten hittades inte i feeden.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                mediaKontroller.UpdateMediaFeed(index, url, namn, kategori);
-
-                dataGridView1.Rows.Clear();
-                fyllPodcastGridView();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
@@ -379,62 +332,31 @@ namespace PodcastProjekt
 
         private void button5_Click(object sender, EventArgs e)
         {
-            List<Podcast> podcastLista = mediaKontroller.GetAllMediaFeed();
-            dataGridView1.Rows.Clear();
-
-            foreach (Podcast pod in podcastLista)
-            {
-                // Null-kontroll för pod.Namn, pod.Url och pod.Kategori
-                if (!string.IsNullOrEmpty(pod.Namn) && !string.IsNullOrEmpty(pod.Url) && pod.Kategori != null)
-                {
-                    mediaKontroller.DeleteMediaFeed(pod.Namn);
-                    mediaKontroller.CreateMediaFeed(pod.Url, pod.Namn, pod.Kategori);
-                }
-                else
-                {
-                    MessageBox.Show("En podcast saknar namn, URL eller kategori och kunde inte uppdateras.", "Varning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            fyllPodcastGridView();
-        }
-
-
-        private void button3_Click(object sender, EventArgs e)
-        {
             try
             {
-                // Null-kontroll för senasteKategori.Namn
-                if (string.IsNullOrEmpty(senasteKategori?.Namn))
+                List<Podcast> podcastLista = mediaKontroller.GetAllMediaFeed();
+                dataGridView1.Rows.Clear();
+
+                foreach (Podcast pod in podcastLista)
                 {
-                    MessageBox.Show("Ingen kategori vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                validering.CheckIfSelected(senasteKategori.Namn);
-
-                string nyttKategoriNamn = textBox3.Text;
-                kategoriKontroller.Update(nyttKategoriNamn, senasteKategori.Namn);
-
-                listBox3.Items.Clear();
-
-                foreach (var item in from Kategori item in kategoriKontroller.GetAll()
-                                     where !kategoriKontroller.GetAll().Contains(item)
-                                     select item)
-                {
-                    // Null-kontroll för item.Namn
-                    if (!string.IsNullOrEmpty(item?.Namn))
+                    // Null-kontroll för pod.Namn, pod.Url och pod.Kategori
+                    if (!string.IsNullOrEmpty(pod.Namn) && !string.IsNullOrEmpty(pod.Url) && pod.Kategori != null)
                     {
-                        listBox3.Items.Add(item.Namn);
+                        mediaKontroller.DeleteMediaFeed(pod.Namn);
+                        mediaKontroller.CreateMediaFeed(pod.Url, pod.Namn, pod.Kategori);
                     }
                     else
                     {
-                        listBox3.Items.Add("Okänd kategori");
+                        MessageBox.Show("En podcast saknar namn, URL eller kategori och kunde inte uppdateras.", "Varning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
+
+                fyllPodcastGridView();
             }
-            catch (Exception ex)
+
+            catch (Exception)
             {
-                MessageBox.Show("Ett fel inträffade: " + ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
             }
         }
 
@@ -487,14 +409,34 @@ namespace PodcastProjekt
         }
 
 
-        private void button9_Click(object sender, EventArgs e)
-        {
-            dataGridView1.Rows.Clear();
-
-            fyllPodcastGridView();
-        }
+        // boolean till sorteringen i button10_click nedan
+        private bool isSortedAscending = true;
 
         private void button10_Click(object sender, EventArgs e)
+        {
+            // Hämta alla objekt från listBox1
+            var items = listBox1.Items.Cast<string>().ToList();
+
+            if (isSortedAscending)
+            {
+                // Sortera i stigande ordning: 1-9, A-Ö
+                items = items.OrderBy(item => item, StringComparer.Ordinal).ToList();
+            }
+            else
+            {
+                // Sortera i fallande ordning: Ö-A, 9-1
+                items = items.OrderByDescending(item => item, StringComparer.Ordinal).ToList();
+            }
+
+            // Töm listan och fyll på med den sorterade listan
+            listBox1.Items.Clear();
+            listBox1.Items.AddRange(items.ToArray());
+
+            // Växla sorteringsordningen för nästa klick
+            isSortedAscending = !isSortedAscending;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
         {
             try
             {
@@ -507,21 +449,24 @@ namespace PodcastProjekt
 
                 validering.CheckIfSelected(senasteKategori.Namn);
 
-                List<Podcast> sorteradPodcast = mediaKontroller.GetAllMediaFeed()
-                    .Where(p => p.Kategori?.Namn == senasteKategori.Namn)
-                    .ToList();
+                string nyttKategoriNamn = textBox3.Text;
+                kategoriKontroller.Update(nyttKategoriNamn, senasteKategori.Namn);
 
-                dataGridView1.Rows.Clear();
+                listBox3.Items.Clear();
 
-                foreach (Podcast podcast in sorteradPodcast)
+                foreach (var item in from Kategori item in kategoriKontroller.GetAll()
+                                     where !kategoriKontroller.GetAll().Contains(item)
+                                     select item)
                 {
-                    int rowIndex = dataGridView1.Rows.Add();
-
-                    dataGridView1.Rows[rowIndex].Cells["Column1"].Value = podcast.Namn;
-                    dataGridView1.Rows[rowIndex].Cells["Column4"].Value = podcast.AntalAvsnitt;
-
-                    // Null-kontroll för podcast.Kategori och podcast.Kategori.Namn
-                    dataGridView1.Rows[rowIndex].Cells["Column3"].Value = podcast.Kategori?.Namn ?? "Okänd kategori";
+                    // Null-kontroll för item.Namn
+                    if (!string.IsNullOrEmpty(item?.Namn))
+                    {
+                        listBox3.Items.Add(item.Namn);
+                    }
+                    else
+                    {
+                        listBox3.Items.Add("Okänd kategori");
+                    }
                 }
             }
             catch (Exception ex)
@@ -529,7 +474,6 @@ namespace PodcastProjekt
                 MessageBox.Show("Ett fel inträffade: " + ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void Form1_Load(object sender, EventArgs e)
         {

@@ -10,6 +10,6 @@ namespace Modell
     {
         public string? Titel { get; set; }
 
-        public string? Beskrivning { get; set; }
+        public virtual string? Beskrivning { get; set; }
     }
 }
