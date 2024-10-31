@@ -477,13 +477,19 @@ namespace PodcastProjekt
 
             if (isSortedAscending)
             {
-                // Sortera i stigande ordning: 1-9, A-Ö
-                items = items.OrderBy(item => item, StringComparer.Ordinal).ToList();
+                // Sortera i stigande ordning: numeriska först, sedan alfanumeriska
+                items = items
+                    .OrderBy(item => ExtractLeadingNumber(item) ?? int.MaxValue) // Sorterar numeriskt om möjligt, annars ger högsta värde för att sortera efter
+                    .ThenBy(item => ExtractLeadingNumber(item) != null ? "" : item, StringComparer.Ordinal) // Sorterar alfanumeriska efter numeriska
+                    .ToList();
             }
             else
             {
-                // Sortera i fallande ordning: Ö-A, 9-1
-                items = items.OrderByDescending(item => item, StringComparer.Ordinal).ToList();
+                // Sortera i fallande ordning: alfanumeriska först, sedan numeriska i omvänd ordning
+                items = items
+                    .OrderByDescending(item => ExtractLeadingNumber(item) ?? int.MinValue) // Sorterar numeriskt om möjligt i omvänd ordning, annars ger lägsta värde för att sortera först
+                    .ThenByDescending(item => ExtractLeadingNumber(item) != null ? "" : item, StringComparer.Ordinal) // Sorterar alfanumeriska efter numeriska i omvänd ordning
+                    .ToList();
             }
 
             // Töm listan och fyll på med den sorterade listan
@@ -494,6 +500,12 @@ namespace PodcastProjekt
             isSortedAscending = !isSortedAscending;
         }
 
+        // Extrahera ledande nummer från en sträng, returnerar null om inget nummer hittas
+        private int? ExtractLeadingNumber(string input)
+        {
+            var match = System.Text.RegularExpressions.Regex.Match(input, @"^\d+");
+            return match.Success ? int.Parse(match.Value) : (int?)null;
+        }
         private void button7_Click(object sender, EventArgs e)
         {
             try
