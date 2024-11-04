@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.ServiceModel.Syndication; // Glöm inte att lägga till referens till System.ServiceModel
+using System.ServiceModel.Syndication;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -32,7 +32,6 @@ namespace DataAccess
                     avsnitt.Beskrivning = item.Summary.Text;
                 }
 
-                // Lägg till avsnittet i listan
                 pod.AvsnittLista.Add(avsnitt);
                 pod.AntalAvsnitt++;
             }
@@ -105,9 +104,6 @@ namespace DataAccess
                 throw;
             }
         }
-
-
-
 
         public List<Podcast> DeSerializePodcast()
         {

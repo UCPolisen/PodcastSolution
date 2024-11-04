@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Kontroller
 {
+    //Kontroller för Kategori
     public class KategoriKontroller
     {
         KategoriRepository Krepository;

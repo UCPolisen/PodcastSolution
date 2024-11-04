@@ -91,14 +91,12 @@ namespace PodcastProjekt
                 listBox3.Items.Clear();
                 string kategoriText = textBox3.Text;
 
-                // Skapa en ny kategori med texten
                 kategoriKontroller.CreateKategori(kategoriText);
 
                 foreach (var item in from Kategori item in kategoriKontroller.GetAll()
                                      where !kategoriKontroller.GetAll().Contains(item)
                                      select item)
                 {
-                    // Null-kontroll för item.Namn
                     var kategoriNamn = item.Namn ?? "Okänd kategori";
 
                     listBox3.Items.Add(kategoriNamn);
@@ -140,7 +138,6 @@ namespace PodcastProjekt
                     // Ta bort de relevanta Podcasts
                     foreach (Podcast podcast in podcastsToRemove)
                     {
-                        // Null-kontroll för podcast.Namn
                         if (string.IsNullOrEmpty(podcast.Namn))
                         {
                             MessageBox.Show("Podcast utan namn hittad. Hoppar över borttagning.", "Varning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -157,7 +154,6 @@ namespace PodcastProjekt
                                          where !kategoriKontroller.GetAll().Contains(item)
                                          select item)
                     {
-                        // Null-kontroll för item.Namn
                         var kategoriNamn = item.Namn ?? "Okänd kategori";
 
                         listBox3.Items.Add(kategoriNamn);
@@ -178,7 +174,6 @@ namespace PodcastProjekt
         {
             try
             {
-                // Null-kontroll för comboBox1.SelectedItem
                 if (comboBox1.SelectedItem == null)
                 {
                     MessageBox.Show("Ingen kategori vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -223,7 +218,6 @@ namespace PodcastProjekt
                 // Vänta på uppdatering av UI
                 await Task.Delay(1000);
 
-                // Rensa textrutorna
                 textBox1.Clear();
                 textBox2.Clear();
             }
@@ -235,21 +229,16 @@ namespace PodcastProjekt
 
         private void button6_Click(object sender, EventArgs e)
         {
-            // Check if a row is selected in dataGridView1
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                // Get the selected row index
                 int selectedIndex = dataGridView1.SelectedRows[0].Index;
 
-                // Safely get the podcast name from the selected row (assuming it's in Column1)
                 string podcastName = dataGridView1.Rows[selectedIndex].Cells["Column1"].Value?.ToString() ?? string.Empty;
 
                 if (!string.IsNullOrEmpty(podcastName))
                 {
-                    // Remove the podcast from the media controller using the DeleteMediaFeed method
                     mediaKontroller.DeleteMediaFeed(podcastName);
 
-                    // Update the DataGridView by refilling it
                     fyllPodcastGridView();
                 }
                 else
@@ -278,43 +267,33 @@ namespace PodcastProjekt
             {
                 int index = e.RowIndex;
 
-                // Make sure the row index is valid
                 if (index >= 0)
                 {
                     DataGridViewRow row = dataGridView1.Rows[index];
 
-                    // Check if the name (Column1) or URL (Column0) is empty
                     if (row.Cells["Column1"].Value == null)
                     {
                         MessageBox.Show("Välj en podcast");
                         return;
                     }
 
-                    // Retrieve the podcast name from Column1 (this should be the name, not the URL)
                     string senastValdaNamn = row.Cells["Column1"].Value?.ToString() ?? "Okänt namn";
 
-                    // Retrieve the podcast URL from Column0 (assuming it's the URL column)
                     string senastValdaPod = row.Cells["Column2"].Value?.ToString() ?? "Okänd podcast";
 
-                    // Fetch all podcasts
                     List<Podcast> podLista = getAllPodcast();
 
-                    // Find the selected podcast either by URL or Name
                     Podcast? valdPod = podLista.FirstOrDefault(p => p.Url == senastValdaPod);
                     Podcast? valdPodnamn = podLista.FirstOrDefault(p => p.Namn == senastValdaNamn);
 
-                    // If either match, we proceed with filling episodes
                     if (valdPod != null || valdPodnamn != null)
                     {
                         Podcast? selectedPodcast = valdPod ?? valdPodnamn;
 
-                        // Call the method to fill the episodes for the selected podcast
                         if (selectedPodcast != null)
                         {
-                            // Call the method to fill the episodes for the selected podcast
                             fyllAvsnitt(selectedPodcast);
 
-                            // Clear and set the name in textBox2
                             textBox2.Clear();
                             textBox2.Text = senastValdaNamn;
                         }
@@ -348,10 +327,9 @@ namespace PodcastProjekt
                 return;
             }
 
-            // Loop through the episodes in AvsnittLista and populate listBox1
             foreach (var avsnitt in pod.AvsnittLista)
             {
-                if (!string.IsNullOrEmpty(avsnitt?.Titel)) // Check if avsnitt and Titel are not null or empty
+                if (!string.IsNullOrEmpty(avsnitt?.Titel)) 
                 {
                     listBox1.Items.Add(avsnitt.Titel);
                 }
@@ -365,7 +343,6 @@ namespace PodcastProjekt
             if (listBox1.SelectedIndex == -1 || senastePodcast == null || senastePodcast.AvsnittLista == null)
                 return;
 
-            // Kontrollera att indexet är giltigt
             if (listBox1.SelectedIndex < senastePodcast.AvsnittLista.Count)
             {
                 // Hämta det valda avsnittet baserat på indexet från listBox1
@@ -397,7 +374,6 @@ namespace PodcastProjekt
 
                 foreach (Podcast pod in podcastLista)
                 {
-                    // Null-kontroll för pod.Namn, pod.Url och pod.Kategori
                     if (!string.IsNullOrEmpty(pod.Namn) && !string.IsNullOrEmpty(pod.Url) && pod.Kategori != null)
                     {
                         mediaKontroller.DeleteMediaFeed(pod.Namn);
@@ -425,7 +401,7 @@ namespace PodcastProjekt
                 string valdKategori = "";
                 if (listBox3.SelectedItem != null)
                 {
-                    // Använd null-coalescing operator för att säkerställa att valdKategori inte blir null
+                    // Använd null operator för att säkerställa att valdKategori inte blir null
                     valdKategori = listBox3.SelectedItem.ToString() ?? "Okänd kategori";
                 }
 
@@ -479,20 +455,19 @@ namespace PodcastProjekt
             {
                 // Sortera i stigande ordning: numeriska först, sedan alfanumeriska
                 items = items
-                    .OrderBy(item => ExtractLeadingNumber(item) ?? int.MaxValue) // Sorterar numeriskt om möjligt, annars ger högsta värde för att sortera efter
-                    .ThenBy(item => ExtractLeadingNumber(item) != null ? "" : item, StringComparer.Ordinal) // Sorterar alfanumeriska efter numeriska
+                    .OrderBy(item => ExtractLeadingNumber(item) ?? int.MaxValue)
+                    .ThenBy(item => ExtractLeadingNumber(item) != null ? "" : item, StringComparer.Ordinal)
                     .ToList();
             }
             else
             {
                 // Sortera i fallande ordning: alfanumeriska först, sedan numeriska i omvänd ordning
                 items = items
-                    .OrderByDescending(item => ExtractLeadingNumber(item) ?? int.MinValue) // Sorterar numeriskt om möjligt i omvänd ordning, annars ger lägsta värde för att sortera först
-                    .ThenByDescending(item => ExtractLeadingNumber(item) != null ? "" : item, StringComparer.Ordinal) // Sorterar alfanumeriska efter numeriska i omvänd ordning
+                    .OrderByDescending(item => ExtractLeadingNumber(item) ?? int.MinValue) 
+                    .ThenByDescending(item => ExtractLeadingNumber(item) != null ? "" : item, StringComparer.Ordinal) 
                     .ToList();
             }
 
-            // Töm listan och fyll på med den sorterade listan
             listBox1.Items.Clear();
             listBox1.Items.AddRange(items.ToArray());
 
@@ -506,11 +481,11 @@ namespace PodcastProjekt
             var match = System.Text.RegularExpressions.Regex.Match(input, @"^\d+");
             return match.Success ? int.Parse(match.Value) : (int?)null;
         }
+
         private void button7_Click(object sender, EventArgs e)
         {
             try
             {
-                // Null-kontroll för senasteKategori.Namn
                 if (string.IsNullOrEmpty(senasteKategori?.Namn))
                 {
                     MessageBox.Show("Ingen kategori vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -528,7 +503,6 @@ namespace PodcastProjekt
                                      where !kategoriKontroller.GetAll().Contains(item)
                                      select item)
                 {
-                    // Null-kontroll för item.Namn
                     if (!string.IsNullOrEmpty(item?.Namn))
                     {
                         listBox3.Items.Add(item.Namn);
@@ -549,39 +523,30 @@ namespace PodcastProjekt
         {
             try
             {
-                // Null check for the latest podcast
                 if (string.IsNullOrEmpty(senastePodcast?.Namn))
                 {
                     MessageBox.Show("Ingen podcast vald.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Validate that a new name has been entered
                 if (string.IsNullOrEmpty(textBox2.Text))
                 {
                     MessageBox.Show("Skriv in ett nytt namn för podcasten.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Get the new podcast name from textBox2
                 string nyttPodcastNamn = textBox2.Text;
 
-                // Handle possible null reference for URL
-                string podcastUrl = senastePodcast.Url ?? "Ingen URL";  // Provide a default URL if it's null
+                string podcastUrl = senastePodcast.Url ?? "Ingen URL"; 
 
-                // Handle possible null reference for Kategori
-                Kategori podcastKategori = senastePodcast.Kategori ?? new Kategori { Namn = "Ingen kategori" };  // Provide a default category if it's null
+                Kategori podcastKategori = senastePodcast.Kategori ?? new Kategori { Namn = "Ingen kategori" }; 
 
-                // Find the index of the selected podcast by its current name
                 int podcastIndex = mediaKontroller.GetPodcastIndex(senastePodcast.Namn);
 
-                // Update the podcast with the new name, and handle the URL and category
                 mediaKontroller.UpdateMediaFeed(podcastIndex, podcastUrl, nyttPodcastNamn, podcastKategori);
 
-                // Refresh the podcast list in the DataGridView
                 fyllPodcastGridView();
 
-                // Notify the user of the success
                 MessageBox.Show("Podcastens namn har uppdaterats.", "Framgång", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)

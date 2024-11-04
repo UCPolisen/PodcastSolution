@@ -67,7 +67,7 @@ namespace DataAccess
         // Hämtar indexet för en podcast baserat på dess namn
         public int GetIndex(string namn)
         {
-            int index = -1; // Börja med att sätta index till -1 (ingen matchning).
+            int index = -1;
 
             for (int i = 0; i < podcastLista.Count; i++)
             {
@@ -98,7 +98,6 @@ namespace DataAccess
             return listaMedAllaPodcats;
         }
 
-        // Tar bort en podcast från listan baserat på index och sparar ändringarna
         public void Delete(int index)
         {
             if (index >= 0 && index < podcastLista.Count)
@@ -112,7 +111,6 @@ namespace DataAccess
             }
         }
 
-        // Sparar alla ändringar till listan med podcasts
         public void SaveChanges()
         {
             try
