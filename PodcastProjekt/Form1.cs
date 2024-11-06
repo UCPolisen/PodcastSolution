@@ -90,6 +90,7 @@ namespace PodcastProjekt
                 validering.TextBoxValidering(textBox3.Text);
                 listBox3.Items.Clear();
                 string kategoriText = textBox3.Text;
+                comboBox1.Items.Clear();
 
                 kategoriKontroller.CreateKategori(kategoriText);
 
@@ -149,6 +150,8 @@ namespace PodcastProjekt
 
                     listBox3.Items.Clear();
                     dataGridView1.Rows.Clear();
+                    textBox3.Clear();
+                    comboBox1.Items.Clear();
 
                     foreach (var item in from Kategori item in kategoriKontroller.GetAll()
                                          where !kategoriKontroller.GetAll().Contains(item)
@@ -158,6 +161,7 @@ namespace PodcastProjekt
 
                         listBox3.Items.Add(kategoriNamn);
                         comboBox1.Items.Remove(kategoriNamn);
+                        comboBox1.Items.Add(kategoriNamn);
                     }
 
                     fyllPodcastGridView();
@@ -383,6 +387,17 @@ namespace PodcastProjekt
                     {
                         MessageBox.Show("En podcast saknar namn, URL eller kategori och kunde inte uppdateras.", "Varning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
+
+                    comboBox1.Items.Clear();
+
+                    foreach (var item in kategoriKontroller.GetAll())
+                    {
+                        // Null-kontroll för item.Namn
+                        var kategoriNamn = item.Namn ?? "Okänd kategori";
+
+                        comboBox1.Items.Add(kategoriNamn);
+                    }
+
                 }
 
                 fyllPodcastGridView();
