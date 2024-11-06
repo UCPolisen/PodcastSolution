@@ -46,5 +46,14 @@ namespace BusinessLayer
 
             return podcast;
         }
+
+        //Metodöverlagringsklass för ovanstående metod
+        public Podcast HämtaPodcastFrånRSS(string url)
+        {
+            string defaultName = "Unnamed Podcast";
+            Kategori defaultCategory = new Kategori { Namn = "General" };
+
+            return HämtaPodcastFrånRSS(url, defaultName, defaultCategory);
+        }
     }
 }
